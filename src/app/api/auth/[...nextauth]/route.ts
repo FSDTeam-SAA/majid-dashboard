@@ -74,6 +74,7 @@ const handler = NextAuth({
 
           const user = data.data?.user;
           const accessToken = data.data?.accessToken;
+          const refreshToken = data.data?.refreshToken;
 
           console.log("User details:", user);
           console.log("Token:", accessToken);
@@ -85,12 +86,14 @@ const handler = NextAuth({
           // Return the object that NextAuth will use as 'user' in the jwt callback
           return {
             id: user._id || user.id, // Ensure we get the ID
-            name: user.name,
+            name:
+              user.name ||
+              `${user.firstName || ""} ${user.lastName || ""}`.trim(),
             email: user.email,
-            image: user.profileImage, // Map profileImage to image
+            image: user.image?.url || user.profileImage, // Map profile image URL
             role: user.role,
             token: accessToken, // We attach the token here as a property of the user
-            refreshToken: user.refreshToken,
+            refreshToken: refreshToken,
           };
         } catch (error) {
           console.error("Authorize error:", error);
