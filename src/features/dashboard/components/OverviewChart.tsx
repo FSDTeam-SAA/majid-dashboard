@@ -36,7 +36,7 @@ export function OverviewChart() {
     })) || [];
 
   return (
-    <Card className="col-span-full lg:col-span-8 border-none shadow-sm">
+    <Card className="col-span-full border-none shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between pb-8">
         <CardTitle className="text-lg font-bold">New Members</CardTitle>
         <Tabs defaultValue="30days" onValueChange={setFilter}>

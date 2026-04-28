@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, Pencil, Trash2 } from "lucide-react";
 import { CreateMessageModal } from "./CreateMessageModal";
 
 import { useAnnouncements } from "../hooks/useAnnouncements";
@@ -21,24 +21,47 @@ interface Announcement {
   title: string;
   description: string;
   time: string;
+  originalData: AnnouncementApiRecord;
 }
 
 export function AnnouncementList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingAnnouncement, setEditingAnnouncement] =
+    useState<Announcement | null>(null);
   const { data: announcementsData, isLoading } = useAnnouncements();
 
   const announcements: Announcement[] =
     announcementsData?.data?.map((a: AnnouncementApiRecord) => ({
       id: a._id,
       title: a.title || "Notification",
-      description: a.message || a.description,
+      description: a.message || a.description || "",
       time: a.createdAt
         ? new Date(a.createdAt).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
           })
         : "N/A",
+      originalData: a,
     })) || [];
+
+  const handleEdit = (e: React.MouseEvent, announcement: Announcement) => {
+    e.stopPropagation();
+    setEditingAnnouncement(announcement);
+    setIsModalOpen(true);
+  };
+
+  const handleCreate = () => {
+    setEditingAnnouncement(null);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (confirm("Are you sure you want to delete this announcement?")) {
+      // Implement delete mutation here
+      console.log("Delete announcement", id);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -60,14 +83,14 @@ export function AnnouncementList() {
           </div>
           <Button
             className="bg-primary hover:bg-primary/90 text-white rounded-full font-semibold h-11 px-6 whitespace-nowrap"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleCreate}
           >
             Create Message
           </Button>
         </div>
       </div>
 
-      <div className="space-y-0">
+      <div className="space-y-2">
         {isLoading
           ? Array.from({ length: 5 }).map((_, i) => (
               <div
@@ -81,19 +104,39 @@ export function AnnouncementList() {
           : announcements.map((item: Announcement) => (
               <div
                 key={item.id}
-                className="flex items-start justify-between py-5 border-b border-border/50 hover:bg-muted/30 transition-colors px-2 rounded-lg cursor-pointer"
+                className="group flex items-start justify-between py-5 border-b border-border/50 hover:bg-muted/30 transition-colors px-4 rounded-xl cursor-pointer"
               >
                 <div className="flex flex-col gap-1">
                   <span className="font-bold text-foreground text-sm">
                     {item.title}
                   </span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-muted-foreground line-clamp-2 max-w-2xl">
                     {item.description}
                   </span>
                 </div>
-                <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">
-                  {item.time}
-                </span>
+                <div className="flex items-center gap-4">
+                  <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">
+                    {item.time}
+                  </span>
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="w-8 h-8 rounded-full hover:bg-primary/10 hover:text-primary"
+                      onClick={(e) => handleEdit(e, item)}
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="w-8 h-8 rounded-full hover:bg-destructive/10 hover:text-destructive"
+                      onClick={(e) => handleDelete(e, item.id)}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
+                  </div>
+                </div>
               </div>
             ))}
       </div>
@@ -101,6 +144,7 @@ export function AnnouncementList() {
       <CreateMessageModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        initialData={editingAnnouncement?.originalData}
       />
     </div>
   );

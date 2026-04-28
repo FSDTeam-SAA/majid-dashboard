@@ -1,260 +1,12 @@
 {
   "info": {
-    "_postman_id": "aa34b81c-4b6e-465d-b16a-911d05a05c29",
+    "_postman_id": "f18b9cd7-b2cf-42b4-82db-f7135f99c6ba",
     "name": "Majid Backend API's",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "45300233",
-    "_collection_link": "https://sajjad-3143219.postman.co/workspace/Olivia~f4f518c8-2b73-4c53-ac53-8b6fe4a39c92/collection/45300233-aa34b81c-4b6e-465d-b16a-911d05a05c29?action=share&source=collection_link&creator=45300233"
+    "_exporter_id": "47394679",
+    "_collection_link": "https://galactic-crater-100376.postman.co/workspace/majid_9990-backend~c15aa645-70de-41e1-97b1-0a8c485601e9/collection/47394679-f18b9cd7-b2cf-42b4-82db-f7135f99c6ba?action=share&source=collection_link&creator=47394679"
   },
   "item": [
-    {
-      "name": "subscription",
-      "item": [
-        {
-          "name": "create-subscription",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Enterprise\",\n  \"type\": \"ENTERPRISE\",\n  \"price\": 0,\n  \"priceLabel\": \"Custom\",\n  \"description\": \"Custom solution for large companies\",\n  \"features\": [\n    { \"name\": \"Custom Pricing\", \"included\": true },\n    { \"name\": \"Full API Access\", \"included\": true },\n    { \"name\": \"Dedicated Support\", \"included\": true }\n  ],\n  \"isPopular\": false,\n  \"apiAccess\": true,\n  \"customPricing\": true,\n  \"ctaText\": \"Contact Us\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/subscription/create",
-              "host": ["{{base_url}}"],
-              "path": ["subscription", "create"]
-            }
-          },
-          "response": [
-            {
-              "name": "create-subscription",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"name\": \"Enterprise\",\n  \"type\": \"ENTERPRISE\",\n  \"price\": 0,\n  \"priceLabel\": \"Custom\",\n  \"description\": \"Custom solution for large companies\",\n  \"features\": [\n    { \"name\": \"Custom Pricing\", \"included\": true },\n    { \"name\": \"Full API Access\", \"included\": true },\n    { \"name\": \"Dedicated Support\", \"included\": true }\n  ],\n  \"isPopular\": false,\n  \"apiAccess\": true,\n  \"customPricing\": true,\n  \"ctaText\": \"Contact Us\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{base_url}}/subscription/create",
-                  "host": ["{{base_url}}"],
-                  "path": ["subscription", "create"]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Access-Control-Allow-Credentials",
-                  "value": "true"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "545"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"221-07eXgpXuir+WC/NLxKdqCtQSgMI\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 26 Apr 2026 20:00:47 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription created successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"name\": \"Enterprise\",\n        \"type\": \"ENTERPRISE\",\n        \"price\": 0,\n        \"priceLabel\": \"Custom\",\n        \"description\": \"Custom solution for large companies\",\n        \"features\": [\n            {\n                \"name\": \"Custom Pricing\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Full API Access\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Dedicated Support\",\n                \"included\": true\n            }\n        ],\n        \"isPopular\": false,\n        \"apiAccess\": true,\n        \"customPricing\": true,\n        \"ctaText\": \"Contact Us\",\n        \"_id\": \"69ee6eef3445195c871f4854\",\n        \"createdAt\": \"2026-04-26T20:00:47.763Z\",\n        \"updatedAt\": \"2026-04-26T20:00:47.763Z\"\n    }\n}"
-            }
-          ]
-        },
-        {
-          "name": "get-all-subscription",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/subscription/all",
-              "host": ["{{base_url}}"],
-              "path": ["subscription", "all"]
-            }
-          },
-          "response": [
-            {
-              "name": "get-all-subscription",
-              "originalRequest": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{base_url}}/subscription/all",
-                  "host": ["{{base_url}}"],
-                  "path": ["subscription", "all"]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Access-Control-Allow-Credentials",
-                  "value": "true"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "1105"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"451-jd4NsdFih4BRjLh5jDnI1Z7y+rk\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Thu, 16 Apr 2026 21:53:24 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Subscriptions retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69e158be011e7f298cf182fb\",\n            \"title\": \"Starter\",\n            \"badge\": \"FREE\",\n            \"price\": {\n                \"amount\": 0,\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"free\",\n            \"features\": [\n                \"2 Free Checks\",\n                \"Basic Device Report\",\n                \"No AI Explanation\"\n            ],\n            \"discount\": [],\n            \"isFree\": true,\n            \"createdAt\": \"2026-04-16T21:46:38.728Z\",\n            \"updatedAt\": \"2026-04-16T21:46:38.728Z\"\n        },\n        {\n            \"_id\": \"69e158e2011e7f298cf182fe\",\n            \"title\": \"Top-up\",\n            \"badge\": \"FLEXIBLE\",\n            \"price\": {\n                \"min\": 2,\n                \"max\": 30,\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"one-time\",\n            \"features\": [\n                \"Top-up from $2 to $30\",\n                \"Pay per AI explanation\",\n                \"Credits never expire\"\n            ],\n            \"discount\": [],\n            \"isFree\": false,\n            \"createdAt\": \"2026-04-16T21:47:14.679Z\",\n            \"updatedAt\": \"2026-04-16T21:47:14.679Z\"\n        },\n        {\n            \"_id\": \"69e159af7c6b7cf0ab6f07b7\",\n            \"title\": \"Enterprise\",\n            \"badge\": \"BEST VALUE\",\n            \"price\": {\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"subscription\",\n            \"features\": [\n                \"Discounted pricing\"\n            ],\n            \"discount\": [\n                {\n                    \"tier\": \"bronze\",\n                    \"percentage\": 5\n                },\n                {\n                    \"tier\": \"silver\",\n                    \"percentage\": 10\n                },\n                {\n                    \"tier\": \"diamond\",\n                    \"percentage\": 15\n                }\n            ],\n            \"isFree\": false,\n            \"createdAt\": \"2026-04-16T21:50:39.888Z\",\n            \"updatedAt\": \"2026-04-16T21:50:39.888Z\"\n        }\n    ]\n}"
-            }
-          ]
-        },
-        {
-          "name": "update-subscription",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Starter\",\n  \"type\": \"STARTER\",\n  \"price\": 0,\n  \"priceLabel\": \"$0/month\",\n  \"description\": \"Basic free plan for beginners\",\n  \"features\": [\n    { \"name\": \"2 Free Checks\", \"included\": true },\n    { \"name\": \"Basic Report\", \"included\": false },\n    { \"name\": \"Risk Analysis\", \"included\": true },\n    { \"name\": \"Market Value\", \"included\": false },\n    { \"name\": \"Deep Details\", \"included\": false },\n    { \"name\": \"Invoicing\", \"included\": false }\n  ],\n  \"isPopular\": true,\n  \"apiAccess\": true,\n  \"customPricing\": false,\n  \"ctaText\": \"Start Free\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/subscription/update/69ee6e633445195c871f4848",
-              "host": ["{{base_url}}"],
-              "path": ["subscription", "update", "69ee6e633445195c871f4848"]
-            }
-          },
-          "response": [
-            {
-              "name": "update-subscription",
-              "originalRequest": {
-                "method": "PUT",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"name\": \"Starter\",\n  \"type\": \"STARTER\",\n  \"price\": 0,\n  \"priceLabel\": \"$0/month\",\n  \"description\": \"Basic free plan for beginners\",\n  \"features\": [\n    { \"name\": \"2 Free Checks\", \"included\": true },\n    { \"name\": \"Basic Report\", \"included\": false },\n    { \"name\": \"Risk Analysis\", \"included\": true },\n    { \"name\": \"Market Value\", \"included\": false },\n    { \"name\": \"Deep Details\", \"included\": false },\n    { \"name\": \"Invoicing\", \"included\": false }\n  ],\n  \"isPopular\": true,\n  \"apiAccess\": true,\n  \"customPricing\": false,\n  \"ctaText\": \"Start Free\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{base_url}}/subscription/update/69ee6e633445195c871f4848",
-                  "host": ["{{base_url}}"],
-                  "path": ["subscription", "update", "69ee6e633445195c871f4848"]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Access-Control-Allow-Credentials",
-                  "value": "true"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "648"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"288-8VJZLdrvdGtEj42Ez439YvWz8EA\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 26 Apr 2026 20:05:07 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription updated successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69ee6e633445195c871f4848\",\n        \"name\": \"Starter\",\n        \"type\": \"STARTER\",\n        \"price\": 0,\n        \"priceLabel\": \"$0/month\",\n        \"description\": \"Basic free plan for beginners\",\n        \"features\": [\n            {\n                \"name\": \"2 Free Checks\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Basic Report\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Risk Analysis\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Market Value\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Deep Details\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Invoicing\",\n                \"included\": false\n            }\n        ],\n        \"isPopular\": true,\n        \"apiAccess\": true,\n        \"customPricing\": false,\n        \"ctaText\": \"Start Free\",\n        \"createdAt\": \"2026-04-26T19:58:27.878Z\",\n        \"updatedAt\": \"2026-04-26T20:05:07.033Z\"\n    }\n}"
-            }
-          ]
-        }
-      ]
-    },
     {
       "name": "user",
       "item": [
@@ -1585,7 +1337,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": "Text",
+              "_postman_previewlanguage": null,
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -1650,7 +1402,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": "Text",
+              "_postman_previewlanguage": null,
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -1715,7 +1467,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": "Text",
+              "_postman_previewlanguage": null,
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -1780,7 +1532,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": "Text",
+              "_postman_previewlanguage": null,
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -1837,6 +1589,95 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Risk analysis API",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n      \"imei\": \"866566044354853\"\n\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/v1/imei/risk-analysis",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "v1", "imei", "risk-analysis"]
+            }
+          },
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n      \"imei\": \"866566044354853\"\n\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:5000/api/v1/imei/risk-analysis",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": ["api", "v1", "imei", "risk-analysis"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1618"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"652-4bhb3JRWlqhwaLzIUoJ5bTBtPKI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 26 Apr 2026 23:24:40 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Risk analysis generated\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"imei\": \"866566044354853\",\n        \"score\": 0,\n        \"level\": \"LOW\",\n        \"issues\": [],\n        \"signals\": {\n            \"blacklist\": \"CLEAN\",\n            \"icloud\": \"UNKNOWN\",\n            \"mdm\": \"UNKNOWN\",\n            \"simLock\": \"UNKNOWN\",\n            \"carrier\": \"UNKNOWN\",\n            \"fmi\": \"UNKNOWN\",\n            \"knoxMiLock\": \"UNKNOWN\",\n            \"activation\": \"UNKNOWN\",\n            \"brand\": \"UNKNOWN\"\n        },\n        \"raw\": {\n            \"blacklist\": {\n                \"payload\": {\n                    \"result\": \"IMEI: 866566044354853<br>Manufacturer: REDMI<br>Marketing Name: NOTE 8 PRO<br>Model: M1906G7I<br>Operating System: ANDROID<br>Blacklist Status: Clean<br>ATT Status: Incompatible device<br>\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": 489.566,\n                    \"price\": \"0.02\",\n                    \"id\": 176567366,\n                    \"status\": \"success\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"icloud\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"simLock\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"carrier\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"fmi\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"mdm\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"brand\": {\n                \"payload\": {\n                    \"result\": \"IMEI: 866566044354853<br>Manufacturer: REDMI<br>Model Code: M1906G7I<br>Model Name: NOTE 8 PRO<br>\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": 489.562,\n                    \"price\": \"0.004\",\n                    \"id\": 176567373,\n                    \"status\": \"success\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            }\n        }\n    }\n}"
+            }
+          ]
         }
       ]
     },
@@ -2242,6 +2083,420 @@
               "body": "{\n    \"success\": true,\n    \"message\": \"Admin dashboard chart fetched\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"date\": \"2026-04-16\",\n            \"user\": 1,\n            \"shopkeeper\": 0\n        },\n        {\n            \"date\": \"2026-04-26\",\n            \"user\": 2,\n            \"shopkeeper\": 0\n        }\n    ]\n}"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "subscription",
+      "item": [
+        {
+          "name": "create-subscription",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Enterprise\",\n  \"type\": \"ENTERPRISE\",\n  \"price\": 0,\n  \"priceLabel\": \"Custom\",\n  \"description\": \"Custom solution for large companies\",\n  \"features\": [\n    { \"name\": \"Custom Pricing\", \"included\": true },\n    { \"name\": \"Full API Access\", \"included\": true },\n    { \"name\": \"Dedicated Support\", \"included\": true }\n  ],\n  \"isPopular\": false,\n  \"apiAccess\": true,\n  \"customPricing\": true,\n  \"ctaText\": \"Contact Us\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/subscription/create",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "create"]
+            }
+          },
+          "response": [
+            {
+              "name": "create-subscription",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Enterprise\",\n  \"type\": \"ENTERPRISE\",\n  \"price\": 0,\n  \"priceLabel\": \"Custom\",\n  \"description\": \"Custom solution for large companies\",\n  \"features\": [\n    { \"name\": \"Custom Pricing\", \"included\": true },\n    { \"name\": \"Full API Access\", \"included\": true },\n    { \"name\": \"Dedicated Support\", \"included\": true }\n  ],\n  \"isPopular\": false,\n  \"apiAccess\": true,\n  \"customPricing\": true,\n  \"ctaText\": \"Contact Us\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/subscription/create",
+                  "host": ["{{base_url}}"],
+                  "path": ["subscription", "create"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "545"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"221-07eXgpXuir+WC/NLxKdqCtQSgMI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 26 Apr 2026 20:00:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription created successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"name\": \"Enterprise\",\n        \"type\": \"ENTERPRISE\",\n        \"price\": 0,\n        \"priceLabel\": \"Custom\",\n        \"description\": \"Custom solution for large companies\",\n        \"features\": [\n            {\n                \"name\": \"Custom Pricing\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Full API Access\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Dedicated Support\",\n                \"included\": true\n            }\n        ],\n        \"isPopular\": false,\n        \"apiAccess\": true,\n        \"customPricing\": true,\n        \"ctaText\": \"Contact Us\",\n        \"_id\": \"69ee6eef3445195c871f4854\",\n        \"createdAt\": \"2026-04-26T20:00:47.763Z\",\n        \"updatedAt\": \"2026-04-26T20:00:47.763Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "get-all-subscription",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/subscription/all",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "all"]
+            }
+          },
+          "response": [
+            {
+              "name": "get-all-subscription",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/subscription/all",
+                  "host": ["{{base_url}}"],
+                  "path": ["subscription", "all"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1105"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"451-jd4NsdFih4BRjLh5jDnI1Z7y+rk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 16 Apr 2026 21:53:24 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscriptions retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69e158be011e7f298cf182fb\",\n            \"title\": \"Starter\",\n            \"badge\": \"FREE\",\n            \"price\": {\n                \"amount\": 0,\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"free\",\n            \"features\": [\n                \"2 Free Checks\",\n                \"Basic Device Report\",\n                \"No AI Explanation\"\n            ],\n            \"discount\": [],\n            \"isFree\": true,\n            \"createdAt\": \"2026-04-16T21:46:38.728Z\",\n            \"updatedAt\": \"2026-04-16T21:46:38.728Z\"\n        },\n        {\n            \"_id\": \"69e158e2011e7f298cf182fe\",\n            \"title\": \"Top-up\",\n            \"badge\": \"FLEXIBLE\",\n            \"price\": {\n                \"min\": 2,\n                \"max\": 30,\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"one-time\",\n            \"features\": [\n                \"Top-up from $2 to $30\",\n                \"Pay per AI explanation\",\n                \"Credits never expire\"\n            ],\n            \"discount\": [],\n            \"isFree\": false,\n            \"createdAt\": \"2026-04-16T21:47:14.679Z\",\n            \"updatedAt\": \"2026-04-16T21:47:14.679Z\"\n        },\n        {\n            \"_id\": \"69e159af7c6b7cf0ab6f07b7\",\n            \"title\": \"Enterprise\",\n            \"badge\": \"BEST VALUE\",\n            \"price\": {\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"subscription\",\n            \"features\": [\n                \"Discounted pricing\"\n            ],\n            \"discount\": [\n                {\n                    \"tier\": \"bronze\",\n                    \"percentage\": 5\n                },\n                {\n                    \"tier\": \"silver\",\n                    \"percentage\": 10\n                },\n                {\n                    \"tier\": \"diamond\",\n                    \"percentage\": 15\n                }\n            ],\n            \"isFree\": false,\n            \"createdAt\": \"2026-04-16T21:50:39.888Z\",\n            \"updatedAt\": \"2026-04-16T21:50:39.888Z\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "update-subscription",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Starter\",\n  \"type\": \"STARTER\",\n  \"price\": 0,\n  \"priceLabel\": \"$0/month\",\n  \"description\": \"Basic free plan for beginners\",\n  \"features\": [\n    { \"name\": \"2 Free Checks\", \"included\": true },\n    { \"name\": \"Basic Report\", \"included\": false },\n    { \"name\": \"Risk Analysis\", \"included\": true },\n    { \"name\": \"Market Value\", \"included\": false },\n    { \"name\": \"Deep Details\", \"included\": false },\n    { \"name\": \"Invoicing\", \"included\": false }\n  ],\n  \"isPopular\": true,\n  \"apiAccess\": true,\n  \"customPricing\": false,\n  \"ctaText\": \"Start Free\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/subscription/update/69ee6e633445195c871f4848",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "update", "69ee6e633445195c871f4848"]
+            }
+          },
+          "response": [
+            {
+              "name": "update-subscription",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Starter\",\n  \"type\": \"STARTER\",\n  \"price\": 0,\n  \"priceLabel\": \"$0/month\",\n  \"description\": \"Basic free plan for beginners\",\n  \"features\": [\n    { \"name\": \"2 Free Checks\", \"included\": true },\n    { \"name\": \"Basic Report\", \"included\": false },\n    { \"name\": \"Risk Analysis\", \"included\": true },\n    { \"name\": \"Market Value\", \"included\": false },\n    { \"name\": \"Deep Details\", \"included\": false },\n    { \"name\": \"Invoicing\", \"included\": false }\n  ],\n  \"isPopular\": true,\n  \"apiAccess\": true,\n  \"customPricing\": false,\n  \"ctaText\": \"Start Free\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/subscription/update/69ee6e633445195c871f4848",
+                  "host": ["{{base_url}}"],
+                  "path": ["subscription", "update", "69ee6e633445195c871f4848"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "648"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"288-8VJZLdrvdGtEj42Ez439YvWz8EA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 26 Apr 2026 20:05:07 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription updated successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69ee6e633445195c871f4848\",\n        \"name\": \"Starter\",\n        \"type\": \"STARTER\",\n        \"price\": 0,\n        \"priceLabel\": \"$0/month\",\n        \"description\": \"Basic free plan for beginners\",\n        \"features\": [\n            {\n                \"name\": \"2 Free Checks\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Basic Report\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Risk Analysis\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Market Value\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Deep Details\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Invoicing\",\n                \"included\": false\n            }\n        ],\n        \"isPopular\": true,\n        \"apiAccess\": true,\n        \"customPricing\": false,\n        \"ctaText\": \"Start Free\",\n        \"createdAt\": \"2026-04-26T19:58:27.878Z\",\n        \"updatedAt\": \"2026-04-26T20:05:07.033Z\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sold Products API (shop keeper)",
+      "item": [
+        {
+          "name": "Create Sold Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "iPhone 13",
+                  "type": "text"
+                },
+                {
+                  "key": "imeiNumber",
+                  "value": "123456789012345",
+                  "type": "text"
+                },
+                {
+                  "key": "model",
+                  "value": "A2633",
+                  "type": "text"
+                },
+                {
+                  "key": "quantity",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "purchasePrice",
+                  "value": "800",
+                  "type": "text"
+                },
+                {
+                  "key": "expectedPrice",
+                  "value": "1000",
+                  "type": "text"
+                },
+                {
+                  "key": "paidAmount",
+                  "value": "400",
+                  "type": "text"
+                },
+                {
+                  "key": "remainingDue",
+                  "value": "600",
+                  "type": "text"
+                },
+                {
+                  "key": "dueDate",
+                  "value": "2026-05-10",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "value": "",
+                  "type": "file"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/sold-products/create",
+              "host": ["{{base_url}}"],
+              "path": ["sold-products", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Sold Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/sold-products/my-products",
+              "host": ["{{base_url}}"],
+              "path": ["sold-products", "my-products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Sold Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Updated iPhone",
+                  "type": "text"
+                },
+                {
+                  "key": "paidAmount",
+                  "value": "700",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "value": "",
+                  "type": "file"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/sold-products/update/:id",
+              "host": ["{{base_url}}"],
+              "path": ["sold-products", "update", ":id"],
+              "variable": [
+                {
+                  "key": "id"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Sold Product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/sold-products/delete/:id",
+              "host": ["{{base_url}}"],
+              "path": ["sold-products", "delete", ":id"],
+              "variable": [
+                {
+                  "key": "id"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }

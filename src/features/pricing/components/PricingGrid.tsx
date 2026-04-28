@@ -37,7 +37,7 @@ interface ProcessedPlan {
   features: Array<{ text: string; icon: React.ElementType }>;
 }
 
-export function PricingGrid() {
+export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
   const { data: subscriptionsData, isLoading } = useSubscriptions();
 
   const plans: ProcessedPlan[] =
@@ -152,6 +152,7 @@ export function PricingGrid() {
           <CardFooter className="px-8 pb-8 pt-4">
             <Button
               variant="outline"
+              onClick={() => onEdit(plan.id)}
               className="w-full bg-white rounded-full border-primary text-primary hover:bg-primary hover:text-white font-bold h-11"
             >
               Edit

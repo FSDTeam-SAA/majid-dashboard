@@ -4,11 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Pencil, Camera } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Pencil, Camera, User, Lock, ShieldCheck } from "lucide-react";
 import {
   useMyProfile,
   useUpdateProfile,
@@ -44,9 +46,16 @@ export function SettingsForm() {
   const updateProfileMutation = useUpdateProfile();
   const changePasswordMutation = useChangePassword();
 
+  const [activeTab, setActiveTab] = useState("profile");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+  const [userSelectedPreview, setUserSelectedPreview] = useState<string | null>(
+    null,
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const imagePreview =
+    userSelectedPreview || profileData?.data?.image?.url || null;
 
   const profileForm = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
@@ -76,18 +85,16 @@ export function SettingsForm() {
         email: user.email || "",
         phone: user.phone || "",
       });
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setImagePreview(user.image?.url || null);
     }
   }, [profileData, profileForm]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      profileForm.setValue("image", file);
+      setSelectedImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+        setUserSelectedPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -101,8 +108,8 @@ export function SettingsForm() {
       formData.append("email", values.email);
       formData.append("phone", values.phone);
 
-      if (values.image instanceof File) {
-        formData.append("image", values.image);
+      if (selectedImageFile) {
+        formData.append("image", selectedImageFile);
       }
 
       await updateProfileMutation.mutateAsync(formData);
@@ -129,213 +136,296 @@ export function SettingsForm() {
   };
 
   if (isLoading) {
-    return <div className="p-8 text-center">Loading profile...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   const user = profileData?.data;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 p-6">
-      {/* Profile Header */}
-      <Card className="border-none shadow-sm overflow-hidden">
-        <CardContent className="p-8 flex items-center gap-6">
-          <div
-            className="relative group cursor-pointer"
-            onClick={() => fileInputRef.current?.click()}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="max-w-4xl mx-auto space-y-8 p-6"
+    >
+      {/* Header with Avatar */}
+      <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
+        <div
+          className="relative group cursor-pointer"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
-            <Avatar className="w-24 h-24 border-4 border-white shadow-md">
+            <Avatar className="w-32 h-32 border-4 border-white shadow-xl">
               <AvatarImage src={imagePreview || undefined} />
-              <AvatarFallback className="bg-primary text-white text-2xl">
+              <AvatarFallback className="bg-primary text-white text-3xl">
                 {user?.firstName?.[0]}
                 {user?.lastName?.[0]}
               </AvatarFallback>
             </Avatar>
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-              <Camera className="w-6 h-6 text-white" />
-            </div>
-            <input
-              type="file"
-              ref={fileInputRef}
-              className="hidden"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
+          </motion.div>
+          <div className="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg">
+            <Camera className="w-5 h-5" />
           </div>
-          <div className="space-y-1">
-            <h2 className="text-2xl font-bold text-foreground">
-              {user?.firstName} {user?.lastName}
-            </h2>
-            <p className="text-muted-foreground text-sm">Super Admin</p>
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        </div>
+        <div className="text-center md:text-left space-y-2">
+          <h1 className="text-3xl font-bold text-foreground">
+            {user?.firstName} {user?.lastName}
+          </h1>
+          <div className="flex items-center justify-center md:justify-start gap-2">
+            <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              {user?.role || "Admin"}
+            </span>
+            <span className="text-muted-foreground text-sm flex items-center gap-1">
+              <ShieldCheck className="w-4 h-4 text-green-500" />
+              Verified Account
+            </span>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      {/* Personal Information */}
-      <Card className="border-none shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between px-8 pt-8">
-          <CardTitle className="text-xl font-bold">
-            Personal Information
-          </CardTitle>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-lg bg-[#84c225] hover:bg-[#84c225]/90 text-white border-none gap-2 px-4"
-            onClick={() => setIsEditingProfile(!isEditingProfile)}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-10 h-14 p-1.5 bg-muted/50 rounded-2xl">
+          <TabsTrigger
+            value="profile"
+            className="rounded-xl gap-2 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm"
           >
-            <Pencil className="w-4 h-4" />
-            Edit
-          </Button>
-        </CardHeader>
-        <CardContent className="p-8">
-          <form
-            onSubmit={profileForm.handleSubmit(onProfileSubmit)}
-            className="space-y-6"
+            <User className="w-4 h-4" />
+            Profile
+          </TabsTrigger>
+          <TabsTrigger
+            value="security"
+            className="rounded-xl gap-2 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-bold">First Name</label>
-                <Input
-                  {...profileForm.register("firstName")}
-                  disabled={!isEditingProfile}
-                  placeholder="Demo"
-                  className="bg-card h-12 border-border/50"
-                />
-                {profileForm.formState.errors.firstName && (
-                  <p className="text-xs text-destructive">
-                    {profileForm.formState.errors.firstName.message}
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold">Last Name</label>
-                <Input
-                  {...profileForm.register("lastName")}
-                  disabled={!isEditingProfile}
-                  placeholder="Name"
-                  className="bg-card h-12 border-border/50"
-                />
-                {profileForm.formState.errors.lastName && (
-                  <p className="text-xs text-destructive">
-                    {profileForm.formState.errors.lastName.message}
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold">Email Address</label>
-                <Input
-                  {...profileForm.register("email")}
-                  disabled={!isEditingProfile}
-                  placeholder="iwmsadvisors@example.com"
-                  className="bg-card h-12 border-border/50"
-                />
-                {profileForm.formState.errors.email && (
-                  <p className="text-xs text-destructive">
-                    {profileForm.formState.errors.email.message}
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold">Phone</label>
-                <Input
-                  {...profileForm.register("phone")}
-                  disabled={!isEditingProfile}
-                  placeholder="(307) 555-0133"
-                  className="bg-card h-12 border-border/50"
-                />
-                {profileForm.formState.errors.phone && (
-                  <p className="text-xs text-destructive">
-                    {profileForm.formState.errors.phone.message}
-                  </p>
-                )}
-              </div>
-            </div>
-            {isEditingProfile && (
-              <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  disabled={updateProfileMutation.isPending}
-                  className="bg-[#84c225] hover:bg-[#84c225]/90 text-white rounded-full px-8 h-12 font-bold"
-                >
-                  {updateProfileMutation.isPending
-                    ? "Updating..."
-                    : "Update Profile"}
-                </Button>
-              </div>
-            )}
-          </form>
-        </CardContent>
-      </Card>
+            <Lock className="w-4 h-4" />
+            Security
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Change Password */}
-      <Card className="border-none shadow-sm">
-        <CardHeader className="px-8 pt-8">
-          <CardTitle className="text-xl font-bold">Change password</CardTitle>
-        </CardHeader>
-        <CardContent className="p-8">
-          <form
-            onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}
-            className="space-y-6"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-bold">Current Password</label>
-                <Input
-                  type="password"
-                  {...passwordForm.register("currentPassword")}
-                  placeholder="..............."
-                  className="bg-card h-12 border-border/50"
-                />
-                {passwordForm.formState.errors.currentPassword && (
-                  <p className="text-xs text-destructive">
-                    {passwordForm.formState.errors.currentPassword.message}
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold">New Password</label>
-                <Input
-                  type="password"
-                  {...passwordForm.register("newPassword")}
-                  placeholder="..............."
-                  className="bg-card h-12 border-border/50"
-                />
-                {passwordForm.formState.errors.newPassword && (
-                  <p className="text-xs text-destructive">
-                    {passwordForm.formState.errors.newPassword.message}
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold">
-                  Confirm New Password
-                </label>
-                <Input
-                  type="password"
-                  {...passwordForm.register("confirmPassword")}
-                  placeholder="..............."
-                  className="bg-card h-12 border-border/50"
-                />
-                {passwordForm.formState.errors.confirmPassword && (
-                  <p className="text-xs text-destructive">
-                    {passwordForm.formState.errors.confirmPassword.message}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="flex justify-end">
-              <Button
-                type="submit"
-                disabled={changePasswordMutation.isPending}
-                className="bg-[#84c225] hover:bg-[#84c225]/90 text-white rounded-full px-8 h-12 font-bold"
-              >
-                {changePasswordMutation.isPending
-                  ? "Saving..."
-                  : "Save Changes"}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+        <AnimatePresence mode="wait">
+          <TabsContent value="profile" key="profile">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Card className="border-none shadow-sm rounded-3xl">
+                <CardHeader className="flex flex-row items-center justify-between px-8 pt-8">
+                  <CardTitle className="text-xl font-bold">
+                    Personal Information
+                  </CardTitle>
+                  {!isEditingProfile && (
+                    <Button
+                      variant="ghost"
+                      className="text-primary font-bold gap-2 hover:bg-primary/5"
+                      onClick={() => setIsEditingProfile(true)}
+                    >
+                      <Pencil className="w-4 h-4" />
+                      Edit Details
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent className="p-8">
+                  <form
+                    onSubmit={profileForm.handleSubmit(onProfileSubmit)}
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                          First Name
+                        </label>
+                        <Input
+                          {...profileForm.register("firstName")}
+                          disabled={!isEditingProfile}
+                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                        />
+                        {profileForm.formState.errors.firstName && (
+                          <p className="text-xs text-destructive">
+                            {profileForm.formState.errors.firstName.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                          Last Name
+                        </label>
+                        <Input
+                          {...profileForm.register("lastName")}
+                          disabled={!isEditingProfile}
+                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                        />
+                        {profileForm.formState.errors.lastName && (
+                          <p className="text-xs text-destructive">
+                            {profileForm.formState.errors.lastName.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                          Email Address
+                        </label>
+                        <Input
+                          {...profileForm.register("email")}
+                          disabled={!isEditingProfile}
+                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                        />
+                        {profileForm.formState.errors.email && (
+                          <p className="text-xs text-destructive">
+                            {profileForm.formState.errors.email.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                          Phone
+                        </label>
+                        <Input
+                          {...profileForm.register("phone")}
+                          disabled={!isEditingProfile}
+                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                        />
+                        {profileForm.formState.errors.phone && (
+                          <p className="text-xs text-destructive">
+                            {profileForm.formState.errors.phone.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    {isEditingProfile && (
+                      <div className="flex gap-3 justify-end mt-10">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          className="rounded-xl font-bold px-8 h-12"
+                          onClick={() => setIsEditingProfile(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          type="submit"
+                          disabled={updateProfileMutation.isPending}
+                          className="bg-primary hover:bg-primary/90 text-white rounded-xl px-10 h-12 font-bold shadow-lg shadow-primary/20"
+                        >
+                          {updateProfileMutation.isPending
+                            ? "Updating..."
+                            : "Save Changes"}
+                        </Button>
+                      </div>
+                    )}
+                  </form>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="security" key="security">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Card className="border-none shadow-sm rounded-3xl">
+                <CardHeader className="px-8 pt-8">
+                  <CardTitle className="text-xl font-bold">
+                    Update Password
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-8">
+                  <form
+                    onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}
+                    className="space-y-8"
+                  >
+                    <div className="space-y-6">
+                      <div className="space-y-2 max-w-md">
+                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                          Current Password
+                        </label>
+                        <Input
+                          type="password"
+                          {...passwordForm.register("currentPassword")}
+                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                        />
+                        {passwordForm.formState.errors.currentPassword && (
+                          <p className="text-xs text-destructive">
+                            {
+                              passwordForm.formState.errors.currentPassword
+                                .message
+                            }
+                          </p>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                            New Password
+                          </label>
+                          <Input
+                            type="password"
+                            {...passwordForm.register("newPassword")}
+                            className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                          />
+                          {passwordForm.formState.errors.newPassword && (
+                            <p className="text-xs text-destructive">
+                              {
+                                passwordForm.formState.errors.newPassword
+                                  .message
+                              }
+                            </p>
+                          )}
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                            Confirm New Password
+                          </label>
+                          <Input
+                            type="password"
+                            {...passwordForm.register("confirmPassword")}
+                            className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                          />
+                          {passwordForm.formState.errors.confirmPassword && (
+                            <p className="text-xs text-destructive">
+                              {
+                                passwordForm.formState.errors.confirmPassword
+                                  .message
+                              }
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex justify-end pt-4">
+                      <Button
+                        type="submit"
+                        disabled={changePasswordMutation.isPending}
+                        className="bg-primary hover:bg-primary/90 text-white rounded-xl px-12 h-12 font-bold shadow-lg shadow-primary/20"
+                      >
+                        {changePasswordMutation.isPending
+                          ? "Updating..."
+                          : "Reset Password"}
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </TabsContent>
+        </AnimatePresence>
+      </Tabs>
+    </motion.div>
   );
 }

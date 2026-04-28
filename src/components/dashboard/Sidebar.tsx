@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
-  FileText,
   History,
   Tag,
   Users,
@@ -20,7 +19,6 @@ import { signOut } from "next-auth/react";
 
 const navItems = [
   { label: "Dashboard Overview", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Invoices", href: "/invoices", icon: FileText },
   { label: "Payment History", href: "/payment-history", icon: History },
   { label: "Pricing Plan", href: "/pricing-plan", icon: Tag },
   { label: "All Users", href: "/all-users", icon: Users },
