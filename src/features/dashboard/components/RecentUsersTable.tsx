@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/ui/data-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-
+import { UserDetailsModal } from "../../users/components/UserDetailsModal";
 import { useUsers } from "../../users/hooks/useUsers";
 
 interface User {
@@ -16,51 +18,6 @@ interface User {
   contract: string;
   avatar: string;
 }
-
-const columns: ColumnDef<User>[] = [
-  {
-    accessorKey: "name",
-    header: "USER NAME",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-3">
-        <Avatar className="w-8 h-8">
-          <AvatarImage src={row.original.avatar} />
-          <AvatarFallback>{row.original.name[0]}</AvatarFallback>
-        </Avatar>
-        <span className="font-medium">{row.original.name}</span>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "deviceName",
-    header: "DEVICE NAME",
-  },
-  {
-    accessorKey: "price",
-    header: "PRICE",
-  },
-  {
-    accessorKey: "date",
-    header: "DATE",
-  },
-  {
-    accessorKey: "contract",
-    header: "CONTRACT",
-  },
-  {
-    id: "actions",
-    header: "ACTION",
-    cell: () => (
-      <Button
-        variant="outline"
-        size="sm"
-        className="h-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white px-6"
-      >
-        View
-      </Button>
-    ),
-  },
-];
 
 interface UserApiRecord {
   _id: string;
@@ -75,6 +32,7 @@ interface UserApiRecord {
 }
 
 export function RecentUsersTable() {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const { data: usersData, isLoading } = useUsers();
 
   const users: User[] =
@@ -88,6 +46,52 @@ export function RecentUsersTable() {
       avatar: u.image?.url || `https://i.pravatar.cc/150?u=${u._id}`,
     })) || [];
 
+  const columns: ColumnDef<User>[] = [
+    {
+      accessorKey: "name",
+      header: "USER NAME",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-3">
+          <Avatar className="w-8 h-8">
+            <AvatarImage src={row.original.avatar} />
+            <AvatarFallback>{row.original.name[0]}</AvatarFallback>
+          </Avatar>
+          <span className="font-medium">{row.original.name}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "deviceName",
+      header: "DEVICE NAME",
+    },
+    {
+      accessorKey: "price",
+      header: "PRICE",
+    },
+    {
+      accessorKey: "date",
+      header: "DATE",
+    },
+    {
+      accessorKey: "contract",
+      header: "CONTRACT",
+    },
+    {
+      id: "actions",
+      header: "ACTION",
+      cell: ({ row }) => (
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white px-6"
+          onClick={() => setSelectedUser(row.original)}
+        >
+          View
+        </Button>
+      ),
+    },
+  ];
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-1">
@@ -98,10 +102,18 @@ export function RecentUsersTable() {
       </div>
       <DataTable columns={columns} data={users} isLoading={isLoading} />
       <div className="flex justify-end mt-4">
-        <Button className="bg-primary hover:bg-primary/90 text-white rounded-lg px-8">
-          View All
-        </Button>
+        <Link href="/all-users">
+          <Button className="bg-primary hover:bg-primary/90 text-white rounded-lg px-8">
+            View All
+          </Button>
+        </Link>
       </div>
+
+      <UserDetailsModal
+        isOpen={!!selectedUser}
+        onClose={() => setSelectedUser(null)}
+        userData={selectedUser}
+      />
     </div>
   );
 }

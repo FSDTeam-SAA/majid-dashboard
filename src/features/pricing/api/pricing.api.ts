@@ -14,6 +14,6 @@ export const updateSubscription = async (
   id: string,
   data: Record<string, unknown>,
 ) => {
-  const response = await api.patch(`/subscription/update/${id}`, data);
+  const response = await api.put(`/subscription/update/${id}`, data);
   return response.data;
 };

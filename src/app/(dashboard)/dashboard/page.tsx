@@ -1,6 +1,5 @@
 import { StatsCards } from "@/features/dashboard/components/StatsCards";
 import { OverviewChart } from "@/features/dashboard/components/OverviewChart";
-import { AiStatusCard } from "@/features/dashboard/components/AiStatusCard";
 import { RecentUsersTable } from "@/features/dashboard/components/RecentUsersTable";
 
 export default function DashboardPage() {
@@ -17,7 +16,6 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-12 gap-6 items-stretch">
         <OverviewChart />
-        <AiStatusCard />
       </div>
 
       <RecentUsersTable />
