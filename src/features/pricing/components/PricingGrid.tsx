@@ -12,20 +12,7 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { useSubscriptions } from "../hooks/usePricing";
-
-interface SubscriptionPlan {
-  _id: string;
-  title: string;
-  badge?: string;
-  price?: {
-    amount?: number;
-    min?: number;
-    max?: number;
-  };
-  billingModel: string;
-  isFree: boolean;
-  features: Array<string | { name: string; included?: boolean }>;
-}
+import { SubscriptionPlan } from "../types";
 
 interface ProcessedPlan {
   id: string;
@@ -43,26 +30,15 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
   const plans: ProcessedPlan[] =
     subscriptionsData?.data?.map((p: SubscriptionPlan) => ({
       id: p._id,
-      title: p.title,
-      badge: p.badge,
-      price:
-        p.price?.amount !== undefined
-          ? `$${p.price.amount}`
-          : p.price?.min
-            ? `$${p.price.min} - $${p.price.max}`
-            : "Contact Us",
-      period: p.billingModel === "subscription" ? "/month" : "",
-      color: p.isFree
-        ? "blue"
-        : p.billingModel === "one-time"
-          ? "green"
-          : "purple",
-      features: p.features.map(
-        (f: string | { name: string; included?: boolean }) => ({
-          text: typeof f === "string" ? f : f.name,
-          icon: Check,
-        }),
-      ),
+      title: p.name,
+      badge: p.type,
+      price: p.priceLabel || (p.price ? `$${p.price}` : "Contact Us"),
+      period: "", // Period can be handled via priceLabel now
+      color: p.type?.toLowerCase().includes("starter") ? "blue" : "purple",
+      features: p.features.map((f: { name: string; included?: boolean }) => ({
+        text: f.name,
+        icon: Check,
+      })),
     })) || [];
 
   if (isLoading) {

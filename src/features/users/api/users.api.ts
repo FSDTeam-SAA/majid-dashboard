@@ -1,18 +1,19 @@
 import { api } from "@/lib/api";
+import { ProfileResponse } from "../types";
 
 export const getAllUsers = async () => {
   const response = await api.get("/user/all-users");
   return response.data;
 };
 
-export const getMyProfile = async () => {
+export const getMyProfile = async (): Promise<ProfileResponse> => {
   const response = await api.get("/user/my-profile");
   return response.data;
 };
 
 export const updateProfile = async (
-  data: FormData | Record<string, unknown>,
-) => {
+  data: FormData,
+): Promise<ProfileResponse> => {
   const response = await api.put("/user/update-profile", data);
   return response.data;
 };

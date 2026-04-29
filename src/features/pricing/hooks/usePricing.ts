@@ -4,6 +4,7 @@ import {
   createSubscription,
   updateSubscription,
 } from "../api/pricing.api";
+import { CreateSubscriptionValues } from "../types";
 
 export function useSubscriptions() {
   return useQuery({
@@ -15,7 +16,7 @@ export function useSubscriptions() {
 export function useCreateSubscription() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: createSubscription,
+    mutationFn: (data: CreateSubscriptionValues) => createSubscription(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["subscriptions"] });
     },
@@ -25,8 +26,13 @@ export function useCreateSubscription() {
 export function useUpdateSubscription() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Record<string, unknown> }) =>
-      updateSubscription(id, data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Partial<CreateSubscriptionValues>;
+    }) => updateSubscription(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["subscriptions"] });
     },

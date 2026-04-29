@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,29 +17,12 @@ import {
   useChangePassword,
 } from "../hooks/useUsers";
 import { toast } from "sonner";
-
-const profileSchema = z.object({
-  firstName: z.string().min(2, "First name is required"),
-  lastName: z.string().min(2, "Last name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Invalid phone number"),
-  image: z.any().optional(),
-});
-
-const passwordSchema = z
-  .object({
-    currentPassword: z
-      .string()
-      .min(6, "Password must be at least 6 characters"),
-    newPassword: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z
-      .string()
-      .min(6, "Password must be at least 6 characters"),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+import {
+  profileSchema,
+  passwordSchema,
+  ProfileValues,
+  PasswordValues,
+} from "../types";
 
 export function SettingsForm() {
   const { data: profileData, isLoading } = useMyProfile();
@@ -57,17 +40,21 @@ export function SettingsForm() {
   const imagePreview =
     userSelectedPreview || profileData?.data?.image?.url || null;
 
-  const profileForm = useForm<z.infer<typeof profileSchema>>({
+  const profileForm = useForm<ProfileValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       phone: "",
+      street: "",
+      location: "",
+      postalCode: "",
+      dateOfBirth: "",
     },
   });
 
-  const passwordForm = useForm<z.infer<typeof passwordSchema>>({
+  const passwordForm = useForm<PasswordValues>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
       currentPassword: "",
@@ -84,6 +71,12 @@ export function SettingsForm() {
         lastName: user.lastName || "",
         email: user.email || "",
         phone: user.phone || "",
+        street: user.street || "",
+        location: user.location || "",
+        postalCode: user.postalCode || "",
+        dateOfBirth: user.dateOfBirth
+          ? new Date(user.dateOfBirth).toISOString().split("T")[0]
+          : "",
       });
     }
   }, [profileData, profileForm]);
@@ -100,13 +93,19 @@ export function SettingsForm() {
     }
   };
 
-  const onProfileSubmit = async (values: z.infer<typeof profileSchema>) => {
+  const onProfileSubmit = async (values: ProfileValues) => {
     try {
       const formData = new FormData();
       formData.append("firstName", values.firstName);
       formData.append("lastName", values.lastName);
       formData.append("email", values.email);
       formData.append("phone", values.phone);
+
+      if (values.street) formData.append("street", values.street);
+      if (values.location) formData.append("location", values.location);
+      if (values.postalCode) formData.append("postalCode", values.postalCode);
+      if (values.dateOfBirth)
+        formData.append("dateOfBirth", values.dateOfBirth);
 
       if (selectedImageFile) {
         formData.append("image", selectedImageFile);
@@ -115,13 +114,13 @@ export function SettingsForm() {
       await updateProfileMutation.mutateAsync(formData);
       toast.success("Profile updated successfully");
       setIsEditingProfile(false);
-    } catch (error) {
+    } catch (error: unknown) {
       const err = error as { response?: { data?: { message?: string } } };
       toast.error(err.response?.data?.message || "Failed to update profile");
     }
   };
 
-  const onPasswordSubmit = async (values: z.infer<typeof passwordSchema>) => {
+  const onPasswordSubmit = async (values: PasswordValues) => {
     try {
       await changePasswordMutation.mutateAsync({
         currentPassword: values.currentPassword,
@@ -129,7 +128,7 @@ export function SettingsForm() {
       });
       toast.success("Password changed successfully");
       passwordForm.reset();
-    } catch (error) {
+    } catch (error: unknown) {
       const err = error as { response?: { data?: { message?: string } } };
       toast.error(err.response?.data?.message || "Failed to change password");
     }
@@ -155,10 +154,10 @@ export function SettingsForm() {
       <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
         <div
           className="relative group cursor-pointer"
-          onClick={() => fileInputRef.current?.click()}
+          onClick={() => isEditingProfile && fileInputRef.current?.click()}
         >
           <motion.div
-            whileHover={{ scale: 1.05 }}
+            whileHover={isEditingProfile ? { scale: 1.05 } : {}}
             transition={{ type: "spring", stiffness: 300 }}
           >
             <Avatar className="w-32 h-32 border-4 border-white shadow-xl">
@@ -169,9 +168,11 @@ export function SettingsForm() {
               </AvatarFallback>
             </Avatar>
           </motion.div>
-          <div className="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg">
-            <Camera className="w-5 h-5" />
-          </div>
+          {isEditingProfile && (
+            <div className="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg">
+              <Camera className="w-5 h-5" />
+            </div>
+          )}
           <input
             type="file"
             ref={fileInputRef}
@@ -222,15 +223,20 @@ export function SettingsForm() {
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.2 }}
             >
-              <Card className="border-none shadow-sm rounded-3xl">
-                <CardHeader className="flex flex-row items-center justify-between px-8 pt-8">
-                  <CardTitle className="text-xl font-bold">
-                    Personal Information
-                  </CardTitle>
+              <Card className="border-none shadow-sm rounded-3xl overflow-hidden">
+                <CardHeader className="flex flex-row items-center justify-between px-8 pt-8 bg-muted/10 pb-6 border-b border-border/50">
+                  <div className="space-y-1">
+                    <CardTitle className="text-xl font-bold">
+                      Personal Information
+                    </CardTitle>
+                    <p className="text-xs text-muted-foreground">
+                      Manage your public profile and contact details.
+                    </p>
+                  </div>
                   {!isEditingProfile && (
                     <Button
                       variant="ghost"
-                      className="text-primary font-bold gap-2 hover:bg-primary/5"
+                      className="text-primary font-bold gap-2 hover:bg-primary/5 h-11 px-6 rounded-xl"
                       onClick={() => setIsEditingProfile(true)}
                     >
                       <Pencil className="w-4 h-4" />
@@ -241,17 +247,18 @@ export function SettingsForm() {
                 <CardContent className="p-8">
                   <form
                     onSubmit={profileForm.handleSubmit(onProfileSubmit)}
-                    className="space-y-6"
+                    className="space-y-8"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                      <div className="space-y-3">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
                           First Name
                         </label>
                         <Input
                           {...profileForm.register("firstName")}
                           disabled={!isEditingProfile}
-                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                          placeholder="Sajjad"
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20 disabled:opacity-100 disabled:bg-muted/30"
                         />
                         {profileForm.formState.errors.firstName && (
                           <p className="text-xs text-destructive">
@@ -259,14 +266,15 @@ export function SettingsForm() {
                           </p>
                         )}
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                      <div className="space-y-3">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
                           Last Name
                         </label>
                         <Input
                           {...profileForm.register("lastName")}
                           disabled={!isEditingProfile}
-                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                          placeholder="Hossain"
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20 disabled:opacity-100 disabled:bg-muted/30"
                         />
                         {profileForm.formState.errors.lastName && (
                           <p className="text-xs text-destructive">
@@ -274,14 +282,15 @@ export function SettingsForm() {
                           </p>
                         )}
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                      <div className="space-y-3">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
                           Email Address
                         </label>
                         <Input
                           {...profileForm.register("email")}
-                          disabled={!isEditingProfile}
-                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                          disabled={true}
+                          placeholder="sajjad@example.com"
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20 disabled:opacity-50"
                         />
                         {profileForm.formState.errors.email && (
                           <p className="text-xs text-destructive">
@@ -289,14 +298,15 @@ export function SettingsForm() {
                           </p>
                         )}
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                          Phone
+                      <div className="space-y-3">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
+                          Phone Number
                         </label>
                         <Input
                           {...profileForm.register("phone")}
                           disabled={!isEditingProfile}
-                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                          placeholder="1234567890"
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20 disabled:opacity-100 disabled:bg-muted/30"
                         />
                         {profileForm.formState.errors.phone && (
                           <p className="text-xs text-destructive">
@@ -304,13 +314,62 @@ export function SettingsForm() {
                           </p>
                         )}
                       </div>
+
+                      <div className="space-y-3">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
+                          Street / Address
+                        </label>
+                        <Input
+                          {...profileForm.register("street")}
+                          disabled={!isEditingProfile}
+                          placeholder="321 Bogura, Bali"
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20 disabled:opacity-100 disabled:bg-muted/30"
+                        />
+                      </div>
+
+                      <div className="space-y-3">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
+                          Location / City
+                        </label>
+                        <Input
+                          {...profileForm.register("location")}
+                          disabled={!isEditingProfile}
+                          placeholder="Bali"
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20 disabled:opacity-100 disabled:bg-muted/30"
+                        />
+                      </div>
+
+                      <div className="space-y-3">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
+                          Postal Code
+                        </label>
+                        <Input
+                          {...profileForm.register("postalCode")}
+                          disabled={!isEditingProfile}
+                          placeholder="34567"
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20 disabled:opacity-100 disabled:bg-muted/30"
+                        />
+                      </div>
+
+                      <div className="space-y-3">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
+                          Date of Birth
+                        </label>
+                        <Input
+                          type="date"
+                          {...profileForm.register("dateOfBirth")}
+                          disabled={!isEditingProfile}
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20 disabled:opacity-100 disabled:bg-muted/30"
+                        />
+                      </div>
                     </div>
+
                     {isEditingProfile && (
-                      <div className="flex gap-3 justify-end mt-10">
+                      <div className="flex gap-4 justify-end mt-12 pt-8 border-t border-border/50">
                         <Button
                           type="button"
                           variant="ghost"
-                          className="rounded-xl font-bold px-8 h-12"
+                          className="rounded-xl font-bold px-8 h-12 hover:bg-muted"
                           onClick={() => setIsEditingProfile(false)}
                         >
                           Cancel
@@ -318,7 +377,7 @@ export function SettingsForm() {
                         <Button
                           type="submit"
                           disabled={updateProfileMutation.isPending}
-                          className="bg-primary hover:bg-primary/90 text-white rounded-xl px-10 h-12 font-bold shadow-lg shadow-primary/20"
+                          className="bg-primary hover:bg-primary/90 text-white rounded-xl px-12 h-12 font-bold shadow-lg shadow-primary/20"
                         >
                           {updateProfileMutation.isPending
                             ? "Updating..."
@@ -339,26 +398,32 @@ export function SettingsForm() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.2 }}
             >
-              <Card className="border-none shadow-sm rounded-3xl">
-                <CardHeader className="px-8 pt-8">
-                  <CardTitle className="text-xl font-bold">
-                    Update Password
-                  </CardTitle>
+              <Card className="border-none shadow-sm rounded-3xl overflow-hidden">
+                <CardHeader className="px-8 pt-8 bg-muted/10 pb-6 border-b border-border/50">
+                  <div className="space-y-1">
+                    <CardTitle className="text-xl font-bold">
+                      Update Password
+                    </CardTitle>
+                    <p className="text-xs text-muted-foreground">
+                      Keep your account secure with a strong password.
+                    </p>
+                  </div>
                 </CardHeader>
                 <CardContent className="p-8">
                   <form
                     onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}
-                    className="space-y-8"
+                    className="space-y-10"
                   >
-                    <div className="space-y-6">
-                      <div className="space-y-2 max-w-md">
-                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                    <div className="space-y-8">
+                      <div className="space-y-3 max-w-md">
+                        <label className="text-xs font-bold text-foreground uppercase tracking-widest">
                           Current Password
                         </label>
                         <Input
                           type="password"
                           {...passwordForm.register("currentPassword")}
-                          className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                          className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                          placeholder="••••••••"
                         />
                         {passwordForm.formState.errors.currentPassword && (
                           <p className="text-xs text-destructive">
@@ -369,15 +434,16 @@ export function SettingsForm() {
                           </p>
                         )}
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                        <div className="space-y-3">
+                          <label className="text-xs font-bold text-foreground uppercase tracking-widest">
                             New Password
                           </label>
                           <Input
                             type="password"
                             {...passwordForm.register("newPassword")}
-                            className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                            className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                            placeholder="••••••••"
                           />
                           {passwordForm.formState.errors.newPassword && (
                             <p className="text-xs text-destructive">
@@ -388,14 +454,15 @@ export function SettingsForm() {
                             </p>
                           )}
                         </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                        <div className="space-y-3">
+                          <label className="text-xs font-bold text-foreground uppercase tracking-widest">
                             Confirm New Password
                           </label>
                           <Input
                             type="password"
                             {...passwordForm.register("confirmPassword")}
-                            className="bg-muted/30 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                            className="bg-muted/50 h-12 border-none rounded-xl focus-visible:ring-primary/20"
+                            placeholder="••••••••"
                           />
                           {passwordForm.formState.errors.confirmPassword && (
                             <p className="text-xs text-destructive">
@@ -408,7 +475,7 @@ export function SettingsForm() {
                         </div>
                       </div>
                     </div>
-                    <div className="flex justify-end pt-4">
+                    <div className="flex justify-end pt-8 border-t border-border/50">
                       <Button
                         type="submit"
                         disabled={changePasswordMutation.isPending}

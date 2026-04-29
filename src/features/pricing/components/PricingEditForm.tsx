@@ -1,19 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  UseFormReturn,
+  useWatch,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Plus, X } from "lucide-react";
 import {
   useSubscriptions,
@@ -21,20 +18,15 @@ import {
   useUpdateSubscription,
 } from "../hooks/usePricing";
 import { toast } from "sonner";
-import { SubscriptionPlan } from "../types";
+import {
+  CreateSubscriptionValues,
+  createSubscriptionSchema,
+  SubscriptionPlan,
+} from "../types";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 
-const pricingSchema = z.object({
-  title: z.string().min(2, "Title is required"),
-  badge: z.string().optional(),
-  amount: z.number().optional(),
-  min: z.number().optional(),
-  max: z.number().optional(),
-  billingModel: z.enum(["subscription", "one-time"]),
-  isFree: z.boolean(),
-  features: z.array(z.string()).min(1, "At least one feature is required"),
-});
-
-type PricingValues = z.infer<typeof pricingSchema>;
+type PricingValues = CreateSubscriptionValues;
 
 export function PricingEditForm({
   planId,
@@ -49,16 +41,27 @@ export function PricingEditForm({
 
   const [featureInput, setFeatureInput] = useState("");
 
-  const form = useForm<PricingValues>({
-    resolver: zodResolver(pricingSchema),
+  const form: UseFormReturn<PricingValues> = useForm<PricingValues>({
+    resolver: zodResolver(createSubscriptionSchema),
     defaultValues: {
-      title: "",
-      badge: "",
-      billingModel: "subscription",
-      isFree: false,
+      name: "",
+      type: "",
+      price: 0,
+      priceLabel: "",
+      description: "",
       features: [],
-    },
+      isPopular: false,
+      apiAccess: false,
+      customPricing: false,
+      ctaText: "",
+    } as PricingValues,
   });
+
+  const { control } = form;
+  const isPopular = useWatch({ control, name: "isPopular" });
+  const apiAccess = useWatch({ control, name: "apiAccess" });
+  const customPricing = useWatch({ control, name: "customPricing" });
+  const features = useWatch({ control, name: "features" }) || [];
 
   useEffect(() => {
     if (planId && subscriptionsData?.data) {
@@ -66,40 +69,40 @@ export function PricingEditForm({
         (p: SubscriptionPlan) => p._id === planId,
       );
       if (plan) {
+        const legacyPlan = plan as unknown as {
+          title?: string;
+          badge?: string;
+          price?: { amount: number };
+          features: (string | { name: string; included?: boolean })[];
+        };
         form.reset({
-          title: plan.title,
-          badge: plan.badge || "",
-          amount: plan.price?.amount,
-          min: plan.price?.min,
-          max: plan.price?.max,
-          billingModel: plan.billingModel as "subscription" | "one-time",
-          isFree: plan.isFree,
+          name: plan.name || legacyPlan.title || "",
+          type: plan.type || legacyPlan.badge || "",
+          price: plan.price || legacyPlan.price?.amount || 0,
+          priceLabel: plan.priceLabel || "",
+          description: plan.description || "",
+          isPopular: plan.isPopular || false,
+          apiAccess: plan.apiAccess || false,
+          customPricing: plan.customPricing || false,
+          ctaText: plan.ctaText || "",
           features: plan.features.map(
             (f: string | { name: string; included?: boolean }) =>
-              typeof f === "string" ? f : f.name,
+              typeof f === "string"
+                ? { name: f, included: true }
+                : { name: f.name, included: f.included ?? true },
           ),
         });
       }
     }
   }, [planId, subscriptionsData, form]);
 
-  const onSubmit = async (values: PricingValues) => {
+  const onSubmit: SubmitHandler<PricingValues> = async (values) => {
     try {
-      const payload = {
-        ...values,
-        price: values.isFree
-          ? { amount: 0 }
-          : values.amount !== undefined
-            ? { amount: values.amount }
-            : { min: values.min, max: values.max },
-        features: values.features.map((f) => ({ name: f, included: true })),
-      };
-
       if (planId) {
-        await updateMutation.mutateAsync({ id: planId, data: payload });
+        await updateMutation.mutateAsync({ id: planId, data: values });
         toast.success("Subscription updated successfully");
       } else {
-        await createMutation.mutateAsync(payload);
+        await createMutation.mutateAsync(values);
         toast.success("Subscription created successfully");
       }
       onSuccess();
@@ -111,8 +114,11 @@ export function PricingEditForm({
   const addFeature = () => {
     if (featureInput.trim()) {
       const currentFeatures = form.getValues("features");
-      if (!currentFeatures.includes(featureInput.trim())) {
-        form.setValue("features", [...currentFeatures, featureInput.trim()]);
+      if (!currentFeatures.find((f) => f.name === featureInput.trim())) {
+        form.setValue("features", [
+          ...currentFeatures,
+          { name: featureInput.trim(), included: true },
+        ]);
       }
       setFeatureInput("");
     }
@@ -132,56 +138,135 @@ export function PricingEditForm({
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-sm font-bold text-foreground">Title</label>
+              <label className="text-sm font-bold text-foreground">
+                Plan Name
+              </label>
               <Input
-                {...form.register("title")}
-                placeholder="Basic Plan"
+                {...form.register("name")}
+                placeholder="Enterprise"
                 className="h-12 bg-card rounded-xl"
               />
-            </div>
-            <div className="space-y-3">
-              <label className="text-sm font-bold text-foreground">Badge</label>
-              <Input
-                {...form.register("badge")}
-                placeholder="Popular"
-                className="h-12 bg-card rounded-xl"
-              />
+              {form.formState.errors.name && (
+                <p className="text-xs text-destructive">
+                  {form.formState.errors.name.message}
+                </p>
+              )}
             </div>
             <div className="space-y-3">
               <label className="text-sm font-bold text-foreground">
-                Billing Model
+                Type / Category
               </label>
-              <Select
-                value={form.watch("billingModel")}
-                onValueChange={(val) =>
-                  form.setValue(
-                    "billingModel",
-                    val as "subscription" | "one-time",
-                  )
-                }
-              >
-                <SelectTrigger className="h-12 bg-card rounded-xl">
-                  <SelectValue placeholder="Select Billing Model" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="subscription">
-                    Subscription (Monthly)
-                  </SelectItem>
-                  <SelectItem value="one-time">One-time Payment</SelectItem>
-                </SelectContent>
-              </Select>
+              <Input
+                {...form.register("type")}
+                placeholder="ENTERPRISE"
+                className="h-12 bg-card rounded-xl"
+              />
+              {form.formState.errors.type && (
+                <p className="text-xs text-destructive">
+                  {form.formState.errors.type.message}
+                </p>
+              )}
             </div>
             <div className="space-y-3">
-              <label className="text-sm font-bold text-foreground">
-                Price Amount
-              </label>
+              <label className="text-sm font-bold text-foreground">Price</label>
               <Input
                 type="number"
-                {...form.register("amount", { valueAsNumber: true })}
-                placeholder="0.00"
+                {...form.register("price", { valueAsNumber: true })}
+                placeholder="0"
                 className="h-12 bg-card rounded-xl"
               />
+              {form.formState.errors.price && (
+                <p className="text-xs text-destructive">
+                  {form.formState.errors.price.message}
+                </p>
+              )}
             </div>
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-foreground">
+                Price Label
+              </label>
+              <Input
+                {...form.register("priceLabel")}
+                placeholder="Custom or $0/month"
+                className="h-12 bg-card rounded-xl"
+              />
+              {form.formState.errors.priceLabel && (
+                <p className="text-xs text-destructive">
+                  {form.formState.errors.priceLabel.message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-foreground">
+              Description
+            </label>
+            <Textarea
+              {...form.register("description")}
+              placeholder="Custom solution for large companies"
+              className="bg-card rounded-xl min-h-[100px]"
+            />
+            {form.formState.errors.description && (
+              <p className="text-xs text-destructive">
+                {form.formState.errors.description.message}
+              </p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="isPopular"
+                checked={isPopular}
+                onCheckedChange={(checked) =>
+                  form.setValue("isPopular", !!checked)
+                }
+              />
+              <label htmlFor="isPopular" className="text-sm font-medium">
+                Is Popular
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="apiAccess"
+                checked={apiAccess}
+                onCheckedChange={(checked) =>
+                  form.setValue("apiAccess", !!checked)
+                }
+              />
+              <label htmlFor="apiAccess" className="text-sm font-medium">
+                API Access
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="customPricing"
+                checked={customPricing}
+                onCheckedChange={(checked) =>
+                  form.setValue("customPricing", !!checked)
+                }
+              />
+              <label htmlFor="customPricing" className="text-sm font-medium">
+                Custom Pricing
+              </label>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-foreground">
+              CTA Text
+            </label>
+            <Input
+              {...form.register("ctaText")}
+              placeholder="Contact Us"
+              className="h-12 bg-card rounded-xl"
+            />
+            {form.formState.errors.ctaText && (
+              <p className="text-xs text-destructive">
+                {form.formState.errors.ctaText.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-3">
@@ -208,17 +293,22 @@ export function PricingEditForm({
               </Button>
             </div>
             <div className="flex flex-wrap gap-2 mt-4">
-              {form.watch("features").map((feature, index) => (
+              {features.map((feature, index) => (
                 <div
                   key={index}
                   className="flex items-center gap-2 bg-secondary px-3 py-1.5 rounded-lg text-sm"
                 >
-                  {feature}
+                  {feature.name}
                   <button type="button" onClick={() => removeFeature(index)}>
                     <X className="w-4 h-4 text-muted-foreground hover:text-destructive" />
                   </button>
                 </div>
               ))}
+              {form.formState.errors.features && (
+                <p className="text-xs text-destructive w-full">
+                  {form.formState.errors.features.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -228,7 +318,13 @@ export function PricingEditForm({
               disabled={createMutation.isPending || updateMutation.isPending}
               className="bg-primary hover:bg-primary/90 text-white px-12 h-12 rounded-2xl font-bold"
             >
-              {planId ? "Update" : "Save"}
+              {planId
+                ? updateMutation.isPending
+                  ? "Updating..."
+                  : "Update"
+                : createMutation.isPending
+                  ? "Saving..."
+                  : "Save"}
             </Button>
           </div>
         </form>
