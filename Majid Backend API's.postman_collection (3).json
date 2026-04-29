@@ -1,12 +1,260 @@
 {
   "info": {
-    "_postman_id": "f18b9cd7-b2cf-42b4-82db-f7135f99c6ba",
+    "_postman_id": "aa34b81c-4b6e-465d-b16a-911d05a05c29",
     "name": "Majid Backend API's",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "47394679",
-    "_collection_link": "https://galactic-crater-100376.postman.co/workspace/majid_9990-backend~c15aa645-70de-41e1-97b1-0a8c485601e9/collection/47394679-f18b9cd7-b2cf-42b4-82db-f7135f99c6ba?action=share&source=collection_link&creator=47394679"
+    "_exporter_id": "45300233",
+    "_collection_link": "https://sajjad-3143219.postman.co/workspace/Olivia~f4f518c8-2b73-4c53-ac53-8b6fe4a39c92/collection/45300233-aa34b81c-4b6e-465d-b16a-911d05a05c29?action=share&source=collection_link&creator=45300233"
   },
   "item": [
+    {
+      "name": "subscription",
+      "item": [
+        {
+          "name": "create-subscription",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Enterprise\",\n  \"type\": \"ENTERPRISE\",\n  \"price\": 0,\n  \"priceLabel\": \"Custom\",\n  \"description\": \"Custom solution for large companies\",\n  \"features\": [\n    { \"name\": \"Custom Pricing\", \"included\": true },\n    { \"name\": \"Full API Access\", \"included\": true },\n    { \"name\": \"Dedicated Support\", \"included\": true }\n  ],\n  \"isPopular\": false,\n  \"apiAccess\": true,\n  \"customPricing\": true,\n  \"ctaText\": \"Contact Us\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/subscription/create",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "create"]
+            }
+          },
+          "response": [
+            {
+              "name": "create-subscription",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Enterprise\",\n  \"type\": \"ENTERPRISE\",\n  \"price\": 0,\n  \"priceLabel\": \"Custom\",\n  \"description\": \"Custom solution for large companies\",\n  \"features\": [\n    { \"name\": \"Custom Pricing\", \"included\": true },\n    { \"name\": \"Full API Access\", \"included\": true },\n    { \"name\": \"Dedicated Support\", \"included\": true }\n  ],\n  \"isPopular\": false,\n  \"apiAccess\": true,\n  \"customPricing\": true,\n  \"ctaText\": \"Contact Us\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/subscription/create",
+                  "host": ["{{base_url}}"],
+                  "path": ["subscription", "create"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "545"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"221-07eXgpXuir+WC/NLxKdqCtQSgMI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 26 Apr 2026 20:00:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription created successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"name\": \"Enterprise\",\n        \"type\": \"ENTERPRISE\",\n        \"price\": 0,\n        \"priceLabel\": \"Custom\",\n        \"description\": \"Custom solution for large companies\",\n        \"features\": [\n            {\n                \"name\": \"Custom Pricing\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Full API Access\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Dedicated Support\",\n                \"included\": true\n            }\n        ],\n        \"isPopular\": false,\n        \"apiAccess\": true,\n        \"customPricing\": true,\n        \"ctaText\": \"Contact Us\",\n        \"_id\": \"69ee6eef3445195c871f4854\",\n        \"createdAt\": \"2026-04-26T20:00:47.763Z\",\n        \"updatedAt\": \"2026-04-26T20:00:47.763Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "get-all-subscription",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/subscription/all",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "all"]
+            }
+          },
+          "response": [
+            {
+              "name": "get-all-subscription",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/subscription/all",
+                  "host": ["{{base_url}}"],
+                  "path": ["subscription", "all"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1105"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"451-jd4NsdFih4BRjLh5jDnI1Z7y+rk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 16 Apr 2026 21:53:24 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscriptions retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69e158be011e7f298cf182fb\",\n            \"title\": \"Starter\",\n            \"badge\": \"FREE\",\n            \"price\": {\n                \"amount\": 0,\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"free\",\n            \"features\": [\n                \"2 Free Checks\",\n                \"Basic Device Report\",\n                \"No AI Explanation\"\n            ],\n            \"discount\": [],\n            \"isFree\": true,\n            \"createdAt\": \"2026-04-16T21:46:38.728Z\",\n            \"updatedAt\": \"2026-04-16T21:46:38.728Z\"\n        },\n        {\n            \"_id\": \"69e158e2011e7f298cf182fe\",\n            \"title\": \"Top-up\",\n            \"badge\": \"FLEXIBLE\",\n            \"price\": {\n                \"min\": 2,\n                \"max\": 30,\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"one-time\",\n            \"features\": [\n                \"Top-up from $2 to $30\",\n                \"Pay per AI explanation\",\n                \"Credits never expire\"\n            ],\n            \"discount\": [],\n            \"isFree\": false,\n            \"createdAt\": \"2026-04-16T21:47:14.679Z\",\n            \"updatedAt\": \"2026-04-16T21:47:14.679Z\"\n        },\n        {\n            \"_id\": \"69e159af7c6b7cf0ab6f07b7\",\n            \"title\": \"Enterprise\",\n            \"badge\": \"BEST VALUE\",\n            \"price\": {\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"subscription\",\n            \"features\": [\n                \"Discounted pricing\"\n            ],\n            \"discount\": [\n                {\n                    \"tier\": \"bronze\",\n                    \"percentage\": 5\n                },\n                {\n                    \"tier\": \"silver\",\n                    \"percentage\": 10\n                },\n                {\n                    \"tier\": \"diamond\",\n                    \"percentage\": 15\n                }\n            ],\n            \"isFree\": false,\n            \"createdAt\": \"2026-04-16T21:50:39.888Z\",\n            \"updatedAt\": \"2026-04-16T21:50:39.888Z\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "update-subscription",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Starter\",\n  \"type\": \"STARTER\",\n  \"price\": 0,\n  \"priceLabel\": \"$0/month\",\n  \"description\": \"Basic free plan for beginners\",\n  \"features\": [\n    { \"name\": \"2 Free Checks\", \"included\": true },\n    { \"name\": \"Basic Report\", \"included\": false },\n    { \"name\": \"Risk Analysis\", \"included\": true },\n    { \"name\": \"Market Value\", \"included\": false },\n    { \"name\": \"Deep Details\", \"included\": false },\n    { \"name\": \"Invoicing\", \"included\": false }\n  ],\n  \"isPopular\": true,\n  \"apiAccess\": true,\n  \"customPricing\": false,\n  \"ctaText\": \"Start Free\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/subscription/update/69ee6e633445195c871f4848",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "update", "69ee6e633445195c871f4848"]
+            }
+          },
+          "response": [
+            {
+              "name": "update-subscription",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Starter\",\n  \"type\": \"STARTER\",\n  \"price\": 0,\n  \"priceLabel\": \"$0/month\",\n  \"description\": \"Basic free plan for beginners\",\n  \"features\": [\n    { \"name\": \"2 Free Checks\", \"included\": true },\n    { \"name\": \"Basic Report\", \"included\": false },\n    { \"name\": \"Risk Analysis\", \"included\": true },\n    { \"name\": \"Market Value\", \"included\": false },\n    { \"name\": \"Deep Details\", \"included\": false },\n    { \"name\": \"Invoicing\", \"included\": false }\n  ],\n  \"isPopular\": true,\n  \"apiAccess\": true,\n  \"customPricing\": false,\n  \"ctaText\": \"Start Free\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/subscription/update/69ee6e633445195c871f4848",
+                  "host": ["{{base_url}}"],
+                  "path": ["subscription", "update", "69ee6e633445195c871f4848"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "648"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"288-8VJZLdrvdGtEj42Ez439YvWz8EA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 26 Apr 2026 20:05:07 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription updated successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69ee6e633445195c871f4848\",\n        \"name\": \"Starter\",\n        \"type\": \"STARTER\",\n        \"price\": 0,\n        \"priceLabel\": \"$0/month\",\n        \"description\": \"Basic free plan for beginners\",\n        \"features\": [\n            {\n                \"name\": \"2 Free Checks\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Basic Report\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Risk Analysis\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Market Value\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Deep Details\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Invoicing\",\n                \"included\": false\n            }\n        ],\n        \"isPopular\": true,\n        \"apiAccess\": true,\n        \"customPricing\": false,\n        \"ctaText\": \"Start Free\",\n        \"createdAt\": \"2026-04-26T19:58:27.878Z\",\n        \"updatedAt\": \"2026-04-26T20:05:07.033Z\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
     {
       "name": "user",
       "item": [
@@ -17,7 +265,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"firstName\": \"sajjad\",\r\n    \"lastName\": \"hossain\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"123456\"\r\n}\r\n",
+              "raw": "// {\r\n//     \"firstName\": \"sajjad\",\r\n//     \"lastName\": \"hossain\",\r\n//     \"email\": \"sajjad@gmail.com\",\r\n//     \"password\": \"123456\",\r\n//     \"role\": \"user\"\r\n// }\r\n\r\n{\r\n    \"firstName\": \"shopkeeper\",\r\n    \"lastName\": \"dev\",\r\n    \"email\": \"shopkeeper2@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"shopkeeper\",\r\n    \"shopName\": \"Gulshan Sumsung\",\r\n    \"shopAddress\": \"Dhaka Gulshan\",\r\n    \"whatsappNumber\": \"4567890\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -631,6 +879,25 @@
               "body": "{\n    \"success\": true,\n    \"message\": \"User updated successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"image\": {\n            \"public_id\": \"users/ruh3uxpsjgfgvj9plo1n\",\n            \"url\": \"https://res.cloudinary.com/drdztqgcx/image/upload/v1757362179/users/ruh3uxpsjgfgvj9plo1n.jpg\"\n        },\n        \"otp\": null,\n        \"otpExpires\": null,\n        \"_id\": \"68bc1fab0f863a77041c1f9d\",\n        \"firstName\": \"sajjad \",\n        \"lastName\": \"Hossain\",\n        \"email\": \"sajjadhossainx0@gmail.com\",\n        \"password\": \"$2b$10$hPXq66BwzHgIafmzztLKIO1aQg81UPzXFizTUlWw1jmDdNOa3ulyW\",\n        \"role\": \"user\",\n        \"isVerified\": true,\n        \"resetPasswordOtp\": \"\",\n        \"resetPasswordOtpExpires\": null,\n        \"createdAt\": \"2025-09-06T11:48:59.708Z\",\n        \"updatedAt\": \"2025-09-08T20:09:39.104Z\",\n        \"dateOfBirth\": \"1998-04-15T00:00:00.000Z\",\n        \"location\": \"Bali\",\n        \"phone\": \"1234567890\",\n        \"postalCode\": \"34567\",\n        \"street\": \"321 Bogura, Bali\"\n    }\n}"
             }
           ]
+        },
+        {
+          "name": "get-all-shopkeeper",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/user/shopkeeper?search=gh",
+              "host": ["{{base_url}}"],
+              "path": ["user", "shopkeeper"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "gh"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -657,7 +924,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "// {\r\n//     \"email\": \"vajisox372@dextrago.com\",\r\n//     \"password\": \"Pa$$w0rd!\"\r\n// }\r\n\r\n{\r\n    \"email\": \"shishir.bdcalling@gmail.com\",\r\n    \"password\": \"Pa$$w0rd!\"\r\n}\r\n\r\n// {\r\n//     \"email\": \"admin@gmail.com\",\r\n//     \"password\": \"123456\"\r\n// }\r\n\r\n\r\n// {\r\n//     \"email\": \"zwdtdwdku3@jkotypc.com\",\r\n//     \"password\": \"Pa$$w0rd!\"\r\n// }",
+              "raw": "// {\r\n//     \"email\": \"sajjad@gmail.com\",\r\n//     \"password\": \"123456\"\r\n// }\r\n\r\n// {\r\n//     \"email\": \"shopkeeper2@gmail.com\",\r\n//     \"password\": \"123456\"\r\n// }\r\n\r\n{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"123456\"\r\n}\r\n\r\n\r\n// {\r\n//     \"email\": \"zwdtdwdku3@jkotypc.com\",\r\n//     \"password\": \"Pa$$w0rd!\"\r\n// }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1337,7 +1604,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -1402,7 +1669,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -1467,7 +1734,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -1532,7 +1799,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -1589,95 +1856,6 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "Risk analysis API",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n      \"imei\": \"866566044354853\"\n\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "localhost:5000/api/v1/imei/risk-analysis",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "v1", "imei", "risk-analysis"]
-            }
-          },
-          "response": [
-            {
-              "name": "New Request",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n      \"imei\": \"866566044354853\"\n\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "localhost:5000/api/v1/imei/risk-analysis",
-                  "host": ["localhost"],
-                  "port": "5000",
-                  "path": ["api", "v1", "imei", "risk-analysis"]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Access-Control-Allow-Credentials",
-                  "value": "true"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "1618"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"652-4bhb3JRWlqhwaLzIUoJ5bTBtPKI\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 26 Apr 2026 23:24:40 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Risk analysis generated\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"imei\": \"866566044354853\",\n        \"score\": 0,\n        \"level\": \"LOW\",\n        \"issues\": [],\n        \"signals\": {\n            \"blacklist\": \"CLEAN\",\n            \"icloud\": \"UNKNOWN\",\n            \"mdm\": \"UNKNOWN\",\n            \"simLock\": \"UNKNOWN\",\n            \"carrier\": \"UNKNOWN\",\n            \"fmi\": \"UNKNOWN\",\n            \"knoxMiLock\": \"UNKNOWN\",\n            \"activation\": \"UNKNOWN\",\n            \"brand\": \"UNKNOWN\"\n        },\n        \"raw\": {\n            \"blacklist\": {\n                \"payload\": {\n                    \"result\": \"IMEI: 866566044354853<br>Manufacturer: REDMI<br>Marketing Name: NOTE 8 PRO<br>Model: M1906G7I<br>Operating System: ANDROID<br>Blacklist Status: Clean<br>ATT Status: Incompatible device<br>\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": 489.566,\n                    \"price\": \"0.02\",\n                    \"id\": 176567366,\n                    \"status\": \"success\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"icloud\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"simLock\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"carrier\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"fmi\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"mdm\": {\n                \"payload\": {\n                    \"result\": \"Error R01: Not Found!\",\n                    \"status\": \"rejected\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": \"489.566\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            },\n            \"brand\": {\n                \"payload\": {\n                    \"result\": \"IMEI: 866566044354853<br>Manufacturer: REDMI<br>Model Code: M1906G7I<br>Model Name: NOTE 8 PRO<br>\",\n                    \"imei\": \"866566044354853\",\n                    \"balance\": 489.562,\n                    \"price\": \"0.004\",\n                    \"id\": 176567373,\n                    \"status\": \"success\",\n                    \"ip\": \"103.186.20.2\"\n                }\n            }\n        }\n    }\n}"
-            }
-          ]
         }
       ]
     },
@@ -2087,47 +2265,125 @@
       ]
     },
     {
-      "name": "subscription",
+      "name": "repairRequest",
       "item": [
         {
-          "name": "create-subscription",
+          "name": "add-new-repair-request",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWVmZDc1ZDM0NGU4YTlmYzc0YjNiOTEiLCJlbWFpbCI6InNhamphZEBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc3NzMzNDU4MCwiZXhwIjoxNzc3OTM5MzgwfQ.s1_lawhvt9dlZEbAe_GtI_2UvSb3Ect1WgEwgHJbigU",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [],
             "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Enterprise\",\n  \"type\": \"ENTERPRISE\",\n  \"price\": 0,\n  \"priceLabel\": \"Custom\",\n  \"description\": \"Custom solution for large companies\",\n  \"features\": [\n    { \"name\": \"Custom Pricing\", \"included\": true },\n    { \"name\": \"Full API Access\", \"included\": true },\n    { \"name\": \"Dedicated Support\", \"included\": true }\n  ],\n  \"isPopular\": false,\n  \"apiAccess\": true,\n  \"customPricing\": true,\n  \"ctaText\": \"Contact Us\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "shopkeeperId",
+                  "value": "69efe37f774a05ee91ff7244",
+                  "type": "text"
+                },
+                {
+                  "key": "firstName",
+                  "value": "Ali Hassan",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "ali@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "deviceModel",
+                  "value": "iPhone 13 Pro",
+                  "type": "text"
+                },
+                {
+                  "key": "IMEINumber",
+                  "value": "123456789012345",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Screen cracked and touch not working",
+                  "type": "text"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": [
+                    "/home/sajjad/Downloads/mobile-2.jpg",
+                    "/home/sajjad/Downloads/mobile-4.jpeg"
+                  ]
                 }
-              }
+              ]
             },
             "url": {
-              "raw": "{{base_url}}/subscription/create",
+              "raw": "{{base_url}}/repair-requests/add",
               "host": ["{{base_url}}"],
-              "path": ["subscription", "create"]
+              "path": ["repair-requests", "add"]
             }
           },
           "response": [
             {
-              "name": "create-subscription",
+              "name": "add-new-repair-request",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
                 "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"name\": \"Enterprise\",\n  \"type\": \"ENTERPRISE\",\n  \"price\": 0,\n  \"priceLabel\": \"Custom\",\n  \"description\": \"Custom solution for large companies\",\n  \"features\": [\n    { \"name\": \"Custom Pricing\", \"included\": true },\n    { \"name\": \"Full API Access\", \"included\": true },\n    { \"name\": \"Dedicated Support\", \"included\": true }\n  ],\n  \"isPopular\": false,\n  \"apiAccess\": true,\n  \"customPricing\": true,\n  \"ctaText\": \"Contact Us\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "shopkeeperId",
+                      "value": "69efe37f774a05ee91ff7244",
+                      "type": "text"
+                    },
+                    {
+                      "key": "firstName",
+                      "value": "Ali Hassan",
+                      "type": "text"
+                    },
+                    {
+                      "key": "email",
+                      "value": "ali@example.com",
+                      "type": "text"
+                    },
+                    {
+                      "key": "deviceModel",
+                      "value": "iPhone 13 Pro",
+                      "type": "text"
+                    },
+                    {
+                      "key": "IMEINumber",
+                      "value": "123456789012345",
+                      "type": "text"
+                    },
+                    {
+                      "key": "description",
+                      "value": "Screen cracked and touch not working",
+                      "type": "text"
+                    },
+                    {
+                      "key": "images",
+                      "type": "file",
+                      "src": [
+                        "/home/sajjad/Downloads/mobile-1.jpg",
+                        "/home/sajjad/Downloads/mobile-2.jpg"
+                      ]
                     }
-                  }
+                  ]
                 },
                 "url": {
-                  "raw": "{{base_url}}/subscription/create",
+                  "raw": "{{base_url}}/repair-requests/add",
                   "host": ["{{base_url}}"],
-                  "path": ["subscription", "create"]
+                  "path": ["repair-requests", "add"]
                 }
               },
               "status": "OK",
@@ -2139,8 +2395,8 @@
                   "value": "Express"
                 },
                 {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
+                  "key": "Vary",
+                  "value": "Origin"
                 },
                 {
                   "key": "Access-Control-Allow-Credentials",
@@ -2152,15 +2408,15 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "545"
+                  "value": "776"
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"221-07eXgpXuir+WC/NLxKdqCtQSgMI\""
+                  "value": "W/\"308-LGXeyqoJeBjhXf/NAM4ILIQIFas\""
                 },
                 {
                   "key": "Date",
-                  "value": "Sun, 26 Apr 2026 20:00:47 GMT"
+                  "value": "Tue, 28 Apr 2026 00:10:42 GMT"
                 },
                 {
                   "key": "Connection",
@@ -2172,31 +2428,41 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription created successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"name\": \"Enterprise\",\n        \"type\": \"ENTERPRISE\",\n        \"price\": 0,\n        \"priceLabel\": \"Custom\",\n        \"description\": \"Custom solution for large companies\",\n        \"features\": [\n            {\n                \"name\": \"Custom Pricing\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Full API Access\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Dedicated Support\",\n                \"included\": true\n            }\n        ],\n        \"isPopular\": false,\n        \"apiAccess\": true,\n        \"customPricing\": true,\n        \"ctaText\": \"Contact Us\",\n        \"_id\": \"69ee6eef3445195c871f4854\",\n        \"createdAt\": \"2026-04-26T20:00:47.763Z\",\n        \"updatedAt\": \"2026-04-26T20:00:47.763Z\"\n    }\n}"
+              "body": "{\n    \"success\": true,\n    \"message\": \"Repair request created successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"shopkeeperId\": \"69efe37f774a05ee91ff7244\",\n        \"userId\": \"69efd75d344e8a9fc74b3b91\",\n        \"firstName\": \"Ali Hassan\",\n        \"email\": \"ali@example.com\",\n        \"deviceModel\": \"iPhone 13 Pro\",\n        \"IMEINumber\": \"123456789012345\",\n        \"description\": \"Screen cracked and touch not working\",\n        \"images\": [\n            {\n                \"public_id\": \"us5athbjjxjtsvvh4je3\",\n                \"url\": \"https://res.cloudinary.com/dat3kh4o6/image/upload/v1777335040/us5athbjjxjtsvvh4je3.jpg\"\n            },\n            {\n                \"public_id\": \"qatvkd1ovtzhyng6fa9q\",\n                \"url\": \"https://res.cloudinary.com/dat3kh4o6/image/upload/v1777335041/qatvkd1ovtzhyng6fa9q.webp\"\n            }\n        ],\n        \"status\": \"submitted\",\n        \"_id\": \"69effb024c3609fcfbdb5bb9\",\n        \"timeline\": [],\n        \"shopkeeperNotes\": [],\n        \"createdAt\": \"2026-04-28T00:10:42.065Z\",\n        \"updatedAt\": \"2026-04-28T00:10:42.065Z\"\n    }\n}"
             }
           ]
         },
         {
-          "name": "get-all-subscription",
+          "name": "ge-my-added-repar-history",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWVmZDc1ZDM0NGU4YTlmYzc0YjNiOTEiLCJlbWFpbCI6InNhamphZEBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc3NzMzNDU4MCwiZXhwIjoxNzc3OTM5MzgwfQ.s1_lawhvt9dlZEbAe_GtI_2UvSb3Ect1WgEwgHJbigU",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/subscription/all",
+              "raw": "{{base_url}}/repair-requests/my-history",
               "host": ["{{base_url}}"],
-              "path": ["subscription", "all"]
+              "path": ["repair-requests", "my-history"]
             }
           },
           "response": [
             {
-              "name": "get-all-subscription",
+              "name": "ge-my-added-repar-history",
               "originalRequest": {
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{base_url}}/subscription/all",
+                  "raw": "{{base_url}}/repair-requests/my-history",
                   "host": ["{{base_url}}"],
-                  "path": ["subscription", "all"]
+                  "path": ["repair-requests", "my-history"]
                 }
               },
               "status": "OK",
@@ -2208,8 +2474,8 @@
                   "value": "Express"
                 },
                 {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
+                  "key": "Vary",
+                  "value": "Origin"
                 },
                 {
                   "key": "Access-Control-Allow-Credentials",
@@ -2221,15 +2487,15 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "1105"
+                  "value": "871"
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"451-jd4NsdFih4BRjLh5jDnI1Z7y+rk\""
+                  "value": "W/\"367-9/KLsZb3FQ8qxLKKVWboLqUANU4\""
                 },
                 {
                   "key": "Date",
-                  "value": "Thu, 16 Apr 2026 21:53:24 GMT"
+                  "value": "Tue, 28 Apr 2026 00:17:13 GMT"
                 },
                 {
                   "key": "Connection",
@@ -2241,18 +2507,176 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Subscriptions retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69e158be011e7f298cf182fb\",\n            \"title\": \"Starter\",\n            \"badge\": \"FREE\",\n            \"price\": {\n                \"amount\": 0,\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"free\",\n            \"features\": [\n                \"2 Free Checks\",\n                \"Basic Device Report\",\n                \"No AI Explanation\"\n            ],\n            \"discount\": [],\n            \"isFree\": true,\n            \"createdAt\": \"2026-04-16T21:46:38.728Z\",\n            \"updatedAt\": \"2026-04-16T21:46:38.728Z\"\n        },\n        {\n            \"_id\": \"69e158e2011e7f298cf182fe\",\n            \"title\": \"Top-up\",\n            \"badge\": \"FLEXIBLE\",\n            \"price\": {\n                \"min\": 2,\n                \"max\": 30,\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"one-time\",\n            \"features\": [\n                \"Top-up from $2 to $30\",\n                \"Pay per AI explanation\",\n                \"Credits never expire\"\n            ],\n            \"discount\": [],\n            \"isFree\": false,\n            \"createdAt\": \"2026-04-16T21:47:14.679Z\",\n            \"updatedAt\": \"2026-04-16T21:47:14.679Z\"\n        },\n        {\n            \"_id\": \"69e159af7c6b7cf0ab6f07b7\",\n            \"title\": \"Enterprise\",\n            \"badge\": \"BEST VALUE\",\n            \"price\": {\n                \"currency\": \"USD\"\n            },\n            \"billingModel\": \"subscription\",\n            \"features\": [\n                \"Discounted pricing\"\n            ],\n            \"discount\": [\n                {\n                    \"tier\": \"bronze\",\n                    \"percentage\": 5\n                },\n                {\n                    \"tier\": \"silver\",\n                    \"percentage\": 10\n                },\n                {\n                    \"tier\": \"diamond\",\n                    \"percentage\": 15\n                }\n            ],\n            \"isFree\": false,\n            \"createdAt\": \"2026-04-16T21:50:39.888Z\",\n            \"updatedAt\": \"2026-04-16T21:50:39.888Z\"\n        }\n    ]\n}"
+              "body": "{\n    \"success\": true,\n    \"message\": \"Repair requests retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69effb024c3609fcfbdb5bb9\",\n            \"shopkeeperId\": {\n                \"_id\": \"69efe37f774a05ee91ff7244\",\n                \"shopName\": \"Gulshan Sumsung\"\n            },\n            \"userId\": \"69efd75d344e8a9fc74b3b91\",\n            \"firstName\": \"Ali Hassan\",\n            \"email\": \"ali@example.com\",\n            \"deviceModel\": \"iPhone 13 Pro\",\n            \"IMEINumber\": \"123456789012345\",\n            \"description\": \"Screen cracked and touch not working\",\n            \"images\": [\n                {\n                    \"public_id\": \"us5athbjjxjtsvvh4je3\",\n                    \"url\": \"https://res.cloudinary.com/dat3kh4o6/image/upload/v1777335040/us5athbjjxjtsvvh4je3.jpg\"\n                },\n                {\n                    \"public_id\": \"qatvkd1ovtzhyng6fa9q\",\n                    \"url\": \"https://res.cloudinary.com/dat3kh4o6/image/upload/v1777335041/qatvkd1ovtzhyng6fa9q.webp\"\n                }\n            ],\n            \"status\": \"submitted\",\n            \"timeline\": [],\n            \"shopkeeperNotes\": [],\n            \"createdAt\": \"2026-04-28T00:10:42.065Z\",\n            \"updatedAt\": \"2026-04-28T00:10:42.065Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"total\": 1,\n        \"totalPage\": 1\n    }\n}"
             }
           ]
         },
         {
-          "name": "update-subscription",
+          "name": "shopkeepers-history",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWVmZTM3Zjc3NGEwNWVlOTFmZjcyNDQiLCJlbWFpbCI6InNob3BrZWVwZXIyQGdtYWlsLmNvbSIsInJvbGUiOiJzaG9wa2VlcGVyIiwiaWF0IjoxNzc3NDAyNjAyLCJleHAiOjE3NzgwMDc0MDJ9.pXZFfAdbNBYUfKYQ3DAS8kVSqNfCvdGBUVT8Chj0HgQ",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/repair-requests/shopkeepers-history",
+              "host": ["{{base_url}}"],
+              "path": ["repair-requests", "shopkeepers-history"]
+            }
+          },
+          "response": [
+            {
+              "name": "shopkeepers-history",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/repair-requests/shopkeepers-history",
+                  "host": ["{{base_url}}"],
+                  "path": ["repair-requests", "shopkeepers-history"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "863"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"35f-UTHzpRVfyRWHrtZl3pnrOLKUiko\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 00:20:20 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Repair requests retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69effb024c3609fcfbdb5bb9\",\n            \"shopkeeperId\": \"69efe37f774a05ee91ff7244\",\n            \"userId\": {\n                \"_id\": \"69efd75d344e8a9fc74b3b91\",\n                \"firstName\": \"sajjad\"\n            },\n            \"firstName\": \"Ali Hassan\",\n            \"email\": \"ali@example.com\",\n            \"deviceModel\": \"iPhone 13 Pro\",\n            \"IMEINumber\": \"123456789012345\",\n            \"description\": \"Screen cracked and touch not working\",\n            \"images\": [\n                {\n                    \"public_id\": \"us5athbjjxjtsvvh4je3\",\n                    \"url\": \"https://res.cloudinary.com/dat3kh4o6/image/upload/v1777335040/us5athbjjxjtsvvh4je3.jpg\"\n                },\n                {\n                    \"public_id\": \"qatvkd1ovtzhyng6fa9q\",\n                    \"url\": \"https://res.cloudinary.com/dat3kh4o6/image/upload/v1777335041/qatvkd1ovtzhyng6fa9q.webp\"\n                }\n            ],\n            \"status\": \"submitted\",\n            \"timeline\": [],\n            \"shopkeeperNotes\": [],\n            \"createdAt\": \"2026-04-28T00:10:42.065Z\",\n            \"updatedAt\": \"2026-04-28T00:10:42.065Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"total\": 1,\n        \"totalPage\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "get-single-history",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/repair-requests/69effb024c3609fcfbdb5bb9",
+              "host": ["{{base_url}}"],
+              "path": ["repair-requests", "69effb024c3609fcfbdb5bb9"]
+            }
+          },
+          "response": [
+            {
+              "name": "get-single-history",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/repair-requests/69effb024c3609fcfbdb5bb9",
+                  "host": ["{{base_url}}"],
+                  "path": ["repair-requests", "69effb024c3609fcfbdb5bb9"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "815"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"32f-8w/M86glxfXktU/cQSJD0DbzHWA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 00:23:56 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Repair request retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69effb024c3609fcfbdb5bb9\",\n        \"shopkeeperId\": {\n            \"_id\": \"69efe37f774a05ee91ff7244\",\n            \"shopName\": \"Gulshan Sumsung\"\n        },\n        \"userId\": \"69efd75d344e8a9fc74b3b91\",\n        \"firstName\": \"Ali Hassan\",\n        \"email\": \"ali@example.com\",\n        \"deviceModel\": \"iPhone 13 Pro\",\n        \"IMEINumber\": \"123456789012345\",\n        \"description\": \"Screen cracked and touch not working\",\n        \"images\": [\n            {\n                \"public_id\": \"us5athbjjxjtsvvh4je3\",\n                \"url\": \"https://res.cloudinary.com/dat3kh4o6/image/upload/v1777335040/us5athbjjxjtsvvh4je3.jpg\"\n            },\n            {\n                \"public_id\": \"qatvkd1ovtzhyng6fa9q\",\n                \"url\": \"https://res.cloudinary.com/dat3kh4o6/image/upload/v1777335041/qatvkd1ovtzhyng6fa9q.webp\"\n            }\n        ],\n        \"status\": \"submitted\",\n        \"timeline\": [],\n        \"shopkeeperNotes\": [],\n        \"createdAt\": \"2026-04-28T00:10:42.065Z\",\n        \"updatedAt\": \"2026-04-28T00:10:42.065Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "update-status-by-shopkeeper",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWVmZTM3Zjc3NGEwNWVlOTFmZjcyNDQiLCJlbWFpbCI6InNob3BrZWVwZXIyQGdtYWlsLmNvbSIsInJvbGUiOiJzaG9wa2VlcGVyIiwiaWF0IjoxNzc3NDAzMzAxLCJleHAiOjE3NzgwMDgxMDF9.olLSPXDvBQctKBXwOicKMriJ3vpsJjGfmnsS6e6Urdk",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Starter\",\n  \"type\": \"STARTER\",\n  \"price\": 0,\n  \"priceLabel\": \"$0/month\",\n  \"description\": \"Basic free plan for beginners\",\n  \"features\": [\n    { \"name\": \"2 Free Checks\", \"included\": true },\n    { \"name\": \"Basic Report\", \"included\": false },\n    { \"name\": \"Risk Analysis\", \"included\": true },\n    { \"name\": \"Market Value\", \"included\": false },\n    { \"name\": \"Deep Details\", \"included\": false },\n    { \"name\": \"Invoicing\", \"included\": false }\n  ],\n  \"isPopular\": true,\n  \"apiAccess\": true,\n  \"customPricing\": false,\n  \"ctaText\": \"Start Free\"\n}",
+              "raw": "{\n    \"status\": \"in_review\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2260,20 +2684,24 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/subscription/update/69ee6e633445195c871f4848",
+              "raw": "{{base_url}}/repair-requests/update-status/69f102b31588348e249c1162",
               "host": ["{{base_url}}"],
-              "path": ["subscription", "update", "69ee6e633445195c871f4848"]
+              "path": [
+                "repair-requests",
+                "update-status",
+                "69f102b31588348e249c1162"
+              ]
             }
           },
           "response": [
             {
-              "name": "update-subscription",
+              "name": "update-status-by-shopkeeper",
               "originalRequest": {
                 "method": "PUT",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"name\": \"Starter\",\n  \"type\": \"STARTER\",\n  \"price\": 0,\n  \"priceLabel\": \"$0/month\",\n  \"description\": \"Basic free plan for beginners\",\n  \"features\": [\n    { \"name\": \"2 Free Checks\", \"included\": true },\n    { \"name\": \"Basic Report\", \"included\": false },\n    { \"name\": \"Risk Analysis\", \"included\": true },\n    { \"name\": \"Market Value\", \"included\": false },\n    { \"name\": \"Deep Details\", \"included\": false },\n    { \"name\": \"Invoicing\", \"included\": false }\n  ],\n  \"isPopular\": true,\n  \"apiAccess\": true,\n  \"customPricing\": false,\n  \"ctaText\": \"Start Free\"\n}",
+                  "raw": "{\n    \"status\": \"in_review\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -2281,9 +2709,13 @@
                   }
                 },
                 "url": {
-                  "raw": "{{base_url}}/subscription/update/69ee6e633445195c871f4848",
+                  "raw": "{{base_url}}/repair-requests/update-status/69f102b31588348e249c1162",
                   "host": ["{{base_url}}"],
-                  "path": ["subscription", "update", "69ee6e633445195c871f4848"]
+                  "path": [
+                    "repair-requests",
+                    "update-status",
+                    "69f102b31588348e249c1162"
+                  ]
                 }
               },
               "status": "OK",
@@ -2295,8 +2727,8 @@
                   "value": "Express"
                 },
                 {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
+                  "key": "Vary",
+                  "value": "Origin"
                 },
                 {
                   "key": "Access-Control-Allow-Credentials",
@@ -2308,15 +2740,15 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "648"
+                  "value": "505"
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"288-8VJZLdrvdGtEj42Ez439YvWz8EA\""
+                  "value": "W/\"1f9-B4AJIa41miGrh9T4qndWB2jpJoo\""
                 },
                 {
                   "key": "Date",
-                  "value": "Sun, 26 Apr 2026 20:05:07 GMT"
+                  "value": "Tue, 28 Apr 2026 19:17:01 GMT"
                 },
                 {
                   "key": "Connection",
@@ -2328,175 +2760,762 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription updated successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69ee6e633445195c871f4848\",\n        \"name\": \"Starter\",\n        \"type\": \"STARTER\",\n        \"price\": 0,\n        \"priceLabel\": \"$0/month\",\n        \"description\": \"Basic free plan for beginners\",\n        \"features\": [\n            {\n                \"name\": \"2 Free Checks\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Basic Report\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Risk Analysis\",\n                \"included\": true\n            },\n            {\n                \"name\": \"Market Value\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Deep Details\",\n                \"included\": false\n            },\n            {\n                \"name\": \"Invoicing\",\n                \"included\": false\n            }\n        ],\n        \"isPopular\": true,\n        \"apiAccess\": true,\n        \"customPricing\": false,\n        \"ctaText\": \"Start Free\",\n        \"createdAt\": \"2026-04-26T19:58:27.878Z\",\n        \"updatedAt\": \"2026-04-26T20:05:07.033Z\"\n    }\n}"
+              "body": "{\n    \"success\": true,\n    \"message\": \"Repair request status updated successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69f102b31588348e249c1162\",\n        \"shopkeeperId\": \"69efe37f774a05ee91ff7244\",\n        \"userId\": \"69efd75d344e8a9fc74b3b91\",\n        \"firstName\": \"Ali Hassan\",\n        \"email\": \"ali@example.com\",\n        \"deviceModel\": \"iPhone 13 Pro\",\n        \"IMEINumber\": \"123456789012345\",\n        \"description\": \"Screen cracked and touch not working\",\n        \"images\": [],\n        \"status\": \"in_review\",\n        \"shopkeeperNotes\": [],\n        \"createdAt\": \"2026-04-28T18:55:47.933Z\",\n        \"updatedAt\": \"2026-04-28T19:17:01.724Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "add-not-by-shopkeeper",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWVmZTM3Zjc3NGEwNWVlOTFmZjcyNDQiLCJlbWFpbCI6InNob3BrZWVwZXIyQGdtYWlsLmNvbSIsInJvbGUiOiJzaG9wa2VlcGVyIiwiaWF0IjoxNzc3NDAzMzAxLCJleHAiOjE3NzgwMDgxMDF9.olLSPXDvBQctKBXwOicKMriJ3vpsJjGfmnsS6e6Urdk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"message\": \"Initial inspection completed. Replacement parts required for repair.\",\n    \"date\": \"2026-04-10T09:30:00.000Z\",\n    \"cost\": 120,\n    \"estimatedDays\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/repair-requests/add-note/69f102b31588348e249c1162",
+              "host": ["{{base_url}}"],
+              "path": [
+                "repair-requests",
+                "add-note",
+                "69f102b31588348e249c1162"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "add-not-by-shopkeeper",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"message\": \"Initial inspection completed. Replacement parts required for repair.\",\n    \"date\": \"2026-04-10T09:30:00.000Z\",\n    \"cost\": 120,\n    \"estimatedDays\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/repair-requests/add-note/69f102b31588348e249c1162",
+                  "host": ["{{base_url}}"],
+                  "path": [
+                    "repair-requests",
+                    "add-note",
+                    "69f102b31588348e249c1162"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "673"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2a1-sERV6avLaCY1LufmYy/ixwOTSvc\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 19:33:43 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Repair request status updated successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69f102b31588348e249c1162\",\n        \"shopkeeperId\": \"69efe37f774a05ee91ff7244\",\n        \"userId\": \"69efd75d344e8a9fc74b3b91\",\n        \"firstName\": \"Ali Hassan\",\n        \"email\": \"ali@example.com\",\n        \"deviceModel\": \"iPhone 13 Pro\",\n        \"IMEINumber\": \"123456789012345\",\n        \"description\": \"Screen cracked and touch not working\",\n        \"images\": [],\n        \"status\": \"quote_sent\",\n        \"shopkeeperNotes\": [\n            {\n                \"message\": \"Initial inspection completed. Replacement parts required for repair.\",\n                \"date\": \"2026-04-28T19:33:42.902Z\",\n                \"cost\": 120,\n                \"estimatedDays\": 3,\n                \"status\": \"inProgress\"\n            }\n        ],\n        \"createdAt\": \"2026-04-28T18:55:47.933Z\",\n        \"updatedAt\": \"2026-04-28T19:33:42.904Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "update-Quote-Status-By-User",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"shopkeeperNotesId\": \"69f10d453a9d66a735ce48b4\",\n    \"status\": \"approved\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/repair-requests/quote-status/69f102b31588348e249c1162",
+              "host": ["{{base_url}}"],
+              "path": [
+                "repair-requests",
+                "quote-status",
+                "69f102b31588348e249c1162"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "update-Quote-Status-By-User",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"shopkeeperNotesId\": \"69f10d453a9d66a735ce48b4\",\n    \"status\": \"approved\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/repair-requests/quote-status/69f102b31588348e249c1162",
+                  "host": ["{{base_url}}"],
+                  "path": [
+                    "repair-requests",
+                    "quote-status",
+                    "69f102b31588348e249c1162"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "708"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2c4-1T+cwJhO5jMKTA5CXF5EREZ+5AE\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 19:52:06 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Repair request status updated successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69f102b31588348e249c1162\",\n        \"shopkeeperId\": \"69efe37f774a05ee91ff7244\",\n        \"userId\": \"69efd75d344e8a9fc74b3b91\",\n        \"firstName\": \"Ali Hassan\",\n        \"email\": \"ali@example.com\",\n        \"deviceModel\": \"iPhone 13 Pro\",\n        \"IMEINumber\": \"123456789012345\",\n        \"description\": \"Screen cracked and touch not working\",\n        \"images\": [],\n        \"status\": \"quote_accepted\",\n        \"shopkeeperNotes\": [\n            {\n                \"message\": \"Initial inspection completed. Replacement parts required for repair.\",\n                \"date\": \"2026-04-28T19:40:53.621Z\",\n                \"cost\": 120,\n                \"estimatedDays\": 3,\n                \"status\": \"approved\",\n                \"_id\": \"69f10d453a9d66a735ce48b4\"\n            }\n        ],\n        \"createdAt\": \"2026-04-28T18:55:47.933Z\",\n        \"updatedAt\": \"2026-04-28T19:52:06.650Z\"\n    }\n}"
             }
           ]
         }
       ]
     },
     {
-      "name": "Sold Products API (shop keeper)",
+      "name": "Notification",
       "item": [
         {
-          "name": "Create Sold Product",
+          "name": "get-shopkepper-notification",
           "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "name",
-                  "value": "iPhone 13",
-                  "type": "text"
-                },
-                {
-                  "key": "imeiNumber",
-                  "value": "123456789012345",
-                  "type": "text"
-                },
-                {
-                  "key": "model",
-                  "value": "A2633",
-                  "type": "text"
-                },
-                {
-                  "key": "quantity",
-                  "value": "1",
-                  "type": "text"
-                },
-                {
-                  "key": "purchasePrice",
-                  "value": "800",
-                  "type": "text"
-                },
-                {
-                  "key": "expectedPrice",
-                  "value": "1000",
-                  "type": "text"
-                },
-                {
-                  "key": "paidAmount",
-                  "value": "400",
-                  "type": "text"
-                },
-                {
-                  "key": "remainingDue",
-                  "value": "600",
-                  "type": "text"
-                },
-                {
-                  "key": "dueDate",
-                  "value": "2026-05-10",
-                  "type": "text"
-                },
-                {
-                  "key": "image",
-                  "value": "",
-                  "type": "file"
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWVmZTM3Zjc3NGEwNWVlOTFmZjcyNDQiLCJlbWFpbCI6InNob3BrZWVwZXIyQGdtYWlsLmNvbSIsInJvbGUiOiJzaG9wa2VlcGVyIiwiaWF0IjoxNzc3NDA5MjQ3LCJleHAiOjE3NzgwMTQwNDd9.QkF41-Vd2CRmJeCXxjE5TkKOuKJa4gpgyymHBn06O8s",
+                  "type": "string"
                 }
               ]
             },
+            "method": "GET",
+            "header": [],
             "url": {
-              "raw": "{{base_url}}/sold-products/create",
+              "raw": "{{base_url}}/notification/shopkeeper",
               "host": ["{{base_url}}"],
-              "path": ["sold-products", "create"]
+              "path": ["notification", "shopkeeper"]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get-shopkepper-notification",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/notification/shopkeeper",
+                  "host": ["{{base_url}}"],
+                  "path": ["notification", "shopkeeper"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "528"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"210-iEh22i+/wTDjg+edms5AqZuGJiA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 20:47:41 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Shopkeeper notifications fetched successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69f10fe64a5eb5a3748817d3\",\n            \"to\": \"69efe37f774a05ee91ff7244\",\n            \"message\": \"Good news! Your repair quotation has been accepted by the customer. You may now proceed with the repair process.\",\n            \"isViewed\": false,\n            \"type\": \"REPAIR_REQUEST\",\n            \"id\": \"69f10fe64a5eb5a3748817d2\",\n            \"title\": \"Repair Quote Accepted\",\n            \"createdAt\": \"2026-04-28T19:52:06.703Z\",\n            \"updatedAt\": \"2026-04-28T19:52:06.703Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"totalPage\": 1,\n        \"total\": 1\n    }\n}"
+            }
+          ]
         },
         {
-          "name": "Get My Sold Products",
+          "name": "get-user-notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWVmZDc1ZDM0NGU4YTlmYzc0YjNiOTEiLCJlbWFpbCI6InNhamphZEBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc3NzQwOTM5NiwiZXhwIjoxNzc4MDE0MTk2fQ.oqMLJBsuacFIXzCjbZefUAsHT9opIR2kdyR48-R8pcM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notification/user",
+              "host": ["{{base_url}}"],
+              "path": ["notification", "user"]
+            }
+          },
+          "response": [
+            {
+              "name": "get-user-notification",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/notification/user",
+                  "host": ["{{base_url}}"],
+                  "path": ["notification", "user"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1214"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4be-fLPNF8VUfengFy4h9Hxc8o6CJ+Y\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 20:51:16 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"User notifications fetched successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69f10d453a9d66a735ce48b8\",\n            \"to\": \"69efd75d344e8a9fc74b3b91\",\n            \"message\": \"Your repair request has received a quotation from the shopkeeper. Please review the estimated cost and timeline.\",\n            \"isViewed\": false,\n            \"type\": \"REPAIR_REQUEST\",\n            \"id\": \"69f10d453a9d66a735ce48b7\",\n            \"title\": \"Repair Quote Received\",\n            \"createdAt\": \"2026-04-28T19:40:53.674Z\",\n            \"updatedAt\": \"2026-04-28T19:40:53.674Z\"\n        },\n        {\n            \"_id\": \"69f10b96d9015414453250c3\",\n            \"to\": \"69efd75d344e8a9fc74b3b91\",\n            \"message\": \"Your repair request has received a quotation from the shopkeeper. Please review the estimated cost and timeline.\",\n            \"isViewed\": false,\n            \"type\": \"REPAIR_REQUEST\",\n            \"id\": \"69f10b96d9015414453250c2\",\n            \"title\": \"Repair Quote Received\",\n            \"createdAt\": \"2026-04-28T19:33:42.965Z\",\n            \"updatedAt\": \"2026-04-28T19:33:42.965Z\"\n        },\n        {\n            \"_id\": \"69f107add11707eb3e8cf5e1\",\n            \"to\": \"69efd75d344e8a9fc74b3b91\",\n            \"message\": \"Your repair request has been under review\",\n            \"isViewed\": false,\n            \"type\": \"REPAIR_REQUEST\",\n            \"id\": \"69f107add11707eb3e8cf5e0\",\n            \"title\": \"Your repair request status updated\",\n            \"createdAt\": \"2026-04-28T19:17:01.792Z\",\n            \"updatedAt\": \"2026-04-28T19:17:01.792Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"totalPage\": 1,\n        \"total\": 3\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "get-All-Notification-By-Admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWUxNTdhNTk3Y2I0ZGUxNTFjNzdhOTciLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3NzQwOTY4MiwiZXhwIjoxNzc4MDE0NDgyfQ.XNAJ5R4DLnRpGnxuqLeMYRYAppM2mUJekiKFpgkPYf4",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notification/admin",
+              "host": ["{{base_url}}"],
+              "path": ["notification", "admin"]
+            }
+          },
+          "response": [
+            {
+              "name": "get-All-Notification-By-Admin",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/notification/admin",
+                  "host": ["{{base_url}}"],
+                  "path": ["notification", "admin"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3083"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c0b-RCaRhNMq6YbHIr4B6SQNClZK9C0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 20:54:57 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Admin notifications fetched successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69f10fe64a5eb5a3748817d3\",\n            \"to\": \"69efe37f774a05ee91ff7244\",\n            \"message\": \"Good news! Your repair quotation has been accepted by the customer. You may now proceed with the repair process.\",\n            \"isViewed\": false,\n            \"type\": \"REPAIR_REQUEST\",\n            \"id\": \"69f10fe64a5eb5a3748817d2\",\n            \"title\": \"Repair Quote Accepted\",\n            \"createdAt\": \"2026-04-28T19:52:06.703Z\",\n            \"updatedAt\": \"2026-04-28T19:52:06.703Z\"\n        },\n        {\n            \"_id\": \"69f10d453a9d66a735ce48b8\",\n            \"to\": \"69efd75d344e8a9fc74b3b91\",\n            \"message\": \"Your repair request has received a quotation from the shopkeeper. Please review the estimated cost and timeline.\",\n            \"isViewed\": false,\n            \"type\": \"REPAIR_REQUEST\",\n            \"id\": \"69f10d453a9d66a735ce48b7\",\n            \"title\": \"Repair Quote Received\",\n            \"createdAt\": \"2026-04-28T19:40:53.674Z\",\n            \"updatedAt\": \"2026-04-28T19:40:53.674Z\"\n        },\n        {\n            \"_id\": \"69f10b96d9015414453250c3\",\n            \"to\": \"69efd75d344e8a9fc74b3b91\",\n            \"message\": \"Your repair request has received a quotation from the shopkeeper. Please review the estimated cost and timeline.\",\n            \"isViewed\": false,\n            \"type\": \"REPAIR_REQUEST\",\n            \"id\": \"69f10b96d9015414453250c2\",\n            \"title\": \"Repair Quote Received\",\n            \"createdAt\": \"2026-04-28T19:33:42.965Z\",\n            \"updatedAt\": \"2026-04-28T19:33:42.965Z\"\n        },\n        {\n            \"_id\": \"69f107add11707eb3e8cf5e1\",\n            \"to\": \"69efd75d344e8a9fc74b3b91\",\n            \"message\": \"Your repair request has been under review\",\n            \"isViewed\": false,\n            \"type\": \"REPAIR_REQUEST\",\n            \"id\": \"69f107add11707eb3e8cf5e0\",\n            \"title\": \"Your repair request status updated\",\n            \"createdAt\": \"2026-04-28T19:17:01.792Z\",\n            \"updatedAt\": \"2026-04-28T19:17:01.792Z\"\n        },\n        {\n            \"_id\": \"69efe382774a05ee91ff7247\",\n            \"to\": \"69e157a597cb4de151c77a97\",\n            \"message\": \"shopkeeper dev just joined your platform as a shopkeeper.\",\n            \"isViewed\": false,\n            \"type\": \"REGISTRATION\",\n            \"id\": \"69efe37f774a05ee91ff7244\",\n            \"title\": \"New User Registered\",\n            \"createdAt\": \"2026-04-27T22:30:26.303Z\",\n            \"updatedAt\": \"2026-04-27T22:30:26.303Z\"\n        },\n        {\n            \"_id\": \"69efd761344e8a9fc74b3b94\",\n            \"to\": \"69e157a597cb4de151c77a97\",\n            \"message\": \"sajjad hossain has registered a new account.\",\n            \"isViewed\": false,\n            \"type\": \"REGISTRATION\",\n            \"id\": \"69efd75d344e8a9fc74b3b91\",\n            \"title\": \"New User\",\n            \"createdAt\": \"2026-04-27T21:38:41.500Z\",\n            \"updatedAt\": \"2026-04-27T21:38:41.500Z\"\n        },\n        {\n            \"_id\": \"69ef4f02498e1498e353421e\",\n            \"to\": \"69e157a597cb4de151c77a97\",\n            \"message\": \"Nayem Sarkar has registered a new account.\",\n            \"isViewed\": false,\n            \"type\": \"REGISTRATION\",\n            \"id\": \"69ef4f01498e1498e353421b\",\n            \"title\": \"New User\",\n            \"createdAt\": \"2026-04-27T11:56:50.221Z\",\n            \"updatedAt\": \"2026-04-27T11:56:50.221Z\"\n        },\n        {\n            \"_id\": \"69ef2a1e6333712cdb982b13\",\n            \"to\": \"69e157a597cb4de151c77a97\",\n            \"message\": \"Quia rerum amet aut has registered a new account.\",\n            \"isViewed\": false,\n            \"type\": \"REGISTRATION\",\n            \"id\": \"69ef2a1d6333712cdb982b10\",\n            \"title\": \"New User\",\n            \"createdAt\": \"2026-04-27T09:19:26.414Z\",\n            \"updatedAt\": \"2026-04-27T09:19:26.414Z\"\n        },\n        {\n            \"_id\": \"69ef29e96333712cdb982b0d\",\n            \"to\": \"69e157a597cb4de151c77a97\",\n            \"message\": \"Irure ut deserunt mo has registered a new account.\",\n            \"isViewed\": false,\n            \"type\": \"REGISTRATION\",\n            \"id\": \"69ef29e86333712cdb982b0a\",\n            \"title\": \"New User\",\n            \"createdAt\": \"2026-04-27T09:18:33.624Z\",\n            \"updatedAt\": \"2026-04-27T09:18:33.624Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"totalPage\": 1,\n        \"total\": 9\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "get-Single-Notification",
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "{{base_url}}/sold-products/my-products",
+              "raw": "{{base_url}}/notification/69ef29e96333712cdb982b0d",
               "host": ["{{base_url}}"],
-              "path": ["sold-products", "my-products"]
+              "path": ["notification", "69ef29e96333712cdb982b0d"]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get-Single-Notification",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/notification/69ef29e96333712cdb982b0d",
+                  "host": ["{{base_url}}"],
+                  "path": ["notification", "69ef29e96333712cdb982b0d"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "386"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"182-s7/RjYR7E4z3Nunhr11dd+9yo3g\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 20:56:55 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Notification retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69ef29e96333712cdb982b0d\",\n        \"to\": \"69e157a597cb4de151c77a97\",\n        \"message\": \"Irure ut deserunt mo has registered a new account.\",\n        \"isViewed\": false,\n        \"type\": \"REGISTRATION\",\n        \"id\": \"69ef29e86333712cdb982b0a\",\n        \"title\": \"New User\",\n        \"createdAt\": \"2026-04-27T09:18:33.624Z\",\n        \"updatedAt\": \"2026-04-27T09:18:33.624Z\"\n    }\n}"
+            }
+          ]
         },
         {
-          "name": "Update Sold Product",
+          "name": "mark-As-Read-Single-Notification",
           "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "Updated iPhone",
-                  "type": "text"
-                },
-                {
-                  "key": "paidAmount",
-                  "value": "700",
-                  "type": "text"
-                },
-                {
-                  "key": "image",
-                  "value": "",
-                  "type": "file"
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notification/read/69ef29e96333712cdb982b0d",
+              "host": ["{{base_url}}"],
+              "path": ["notification", "read", "69ef29e96333712cdb982b0d"]
+            }
+          },
+          "response": [
+            {
+              "name": "mark-As-Read-Single-Notification",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/notification/read/69ef29e96333712cdb982b0d",
+                  "host": ["{{base_url}}"],
+                  "path": ["notification", "read", "69ef29e96333712cdb982b0d"]
                 }
-              ]
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "390"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"186-tHVQw602IvhTMYvqAqaStuFR8Mw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 21:01:55 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Notification marked as read successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69ef29e96333712cdb982b0d\",\n        \"to\": \"69e157a597cb4de151c77a97\",\n        \"message\": \"Irure ut deserunt mo has registered a new account.\",\n        \"isViewed\": true,\n        \"type\": \"REGISTRATION\",\n        \"id\": \"69ef29e86333712cdb982b0a\",\n        \"title\": \"New User\",\n        \"createdAt\": \"2026-04-27T09:18:33.624Z\",\n        \"updatedAt\": \"2026-04-28T21:01:23.953Z\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Announcement",
+      "item": [
+        {
+          "name": "send-Announcement-message",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Updated Privacy Policy\",\n    \"message\": \"We have updated our privacy policy to improve transparency and security. Please review the updated terms in your account settings. Continued use of our service means you accept the updated policy.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{base_url}}/sold-products/update/:id",
+              "raw": "{{base_url}}/announcements/send",
               "host": ["{{base_url}}"],
-              "path": ["sold-products", "update", ":id"],
-              "variable": [
-                {
-                  "key": "id"
-                }
-              ]
+              "path": ["announcements", "send"]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "send-Announcement-message",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"title\": \"Updated Privacy Policy\",\n    \"message\": \"We have updated our privacy policy to improve transparency and security. Please review the updated terms in your account settings. Continued use of our service means you accept the updated policy.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/announcements/send",
+                  "host": ["{{base_url}}"],
+                  "path": ["announcements", "send"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "438"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1b6-fHa6GDEjcnR0W25tOQ47QLFMpfA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 22:34:43 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Announcement sent successfully\",\n    \"statusCode\": 200,\n    \"data\": {\n        \"title\": \"Updated Privacy Policy\",\n        \"message\": \"We have updated our privacy policy to improve transparency and security. Please review the updated terms in your account settings. Continued use of our service means you accept the updated policy.\",\n        \"_id\": \"69f1360008c381656e329d8c\",\n        \"createdAt\": \"2026-04-28T22:34:40.069Z\",\n        \"updatedAt\": \"2026-04-28T22:34:40.069Z\"\n    }\n}"
+            }
+          ]
         },
         {
-          "name": "Delete Sold Product",
+          "name": "get-all",
           "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}",
-                "type": "text"
-              }
-            ],
+            "method": "GET",
+            "header": [],
             "url": {
-              "raw": "{{base_url}}/sold-products/delete/:id",
+              "raw": "{{base_url}}/announcements/all?search=Service Alert",
               "host": ["{{base_url}}"],
-              "path": ["sold-products", "delete", ":id"],
-              "variable": [
+              "path": ["announcements", "all"],
+              "query": [
                 {
-                  "key": "id"
+                  "key": "search",
+                  "value": "Service Alert"
                 }
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get-all",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/announcements/all?search=Service Alert",
+                  "host": ["{{base_url}}"],
+                  "path": ["announcements", "all"],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "Service Alert"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "829"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"33d-ULlo8ZT0dtTmVoduFCQ3ePgnqzQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 28 Apr 2026 22:41:41 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Announcement retrieved successfully\",\n    \"statusCode\": 200,\n    \"data\": [\n        {\n            \"_id\": \"69f13588796a038ce408724d\",\n            \"title\": \"Service Alert\",\n            \"message\": \"We are currently experiencing unexpected technical issues affecting some users. Our engineering team is actively working to resolve the problem as quickly as possible. We will keep you updated.\",\n            \"createdAt\": \"2026-04-28T22:32:40.622Z\",\n            \"updatedAt\": \"2026-04-28T22:32:40.622Z\"\n        },\n        {\n            \"_id\": \"69f134825715c0fd9a1a8528\",\n            \"title\": \"Service Alert\",\n            \"message\": \"We are currently experiencing unexpected technical issues affecting some users. Our engineering team is actively working to resolve the problem as quickly as possible. We will keep you updated.\",\n            \"createdAt\": \"2026-04-28T22:28:18.368Z\",\n            \"updatedAt\": \"2026-04-28T22:28:18.368Z\"\n        }\n    ],\n    \"meta\": {\n        \"total\": 2,\n        \"page\": 1,\n        \"limit\": 10,\n        \"totalPage\": 1\n    }\n}"
+            }
+          ]
         }
       ]
     }

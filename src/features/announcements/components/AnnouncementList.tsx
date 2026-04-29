@@ -3,38 +3,30 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Pencil, Trash2 } from "lucide-react";
+import { Search } from "lucide-react";
 import { CreateMessageModal } from "./CreateMessageModal";
 
 import { useAnnouncements } from "../hooks/useAnnouncements";
-
-interface AnnouncementApiRecord {
-  _id: string;
-  title?: string;
-  message?: string;
-  description?: string;
-  createdAt?: string;
-}
+import { Announcement as AnnouncementRecord } from "../types";
 
 interface Announcement {
   id: string;
   title: string;
   description: string;
   time: string;
-  originalData: AnnouncementApiRecord;
+  originalData: AnnouncementRecord;
 }
 
 export function AnnouncementList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingAnnouncement, setEditingAnnouncement] =
-    useState<Announcement | null>(null);
-  const { data: announcementsData, isLoading } = useAnnouncements();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: announcementsData, isLoading } = useAnnouncements(searchTerm);
 
   const announcements: Announcement[] =
-    announcementsData?.data?.map((a: AnnouncementApiRecord) => ({
+    announcementsData?.data?.map((a: AnnouncementRecord) => ({
       id: a._id,
-      title: a.title || "Notification",
-      description: a.message || a.description || "",
+      title: a.title,
+      description: a.message,
       time: a.createdAt
         ? new Date(a.createdAt).toLocaleTimeString([], {
             hour: "2-digit",
@@ -44,23 +36,8 @@ export function AnnouncementList() {
       originalData: a,
     })) || [];
 
-  const handleEdit = (e: React.MouseEvent, announcement: Announcement) => {
-    e.stopPropagation();
-    setEditingAnnouncement(announcement);
-    setIsModalOpen(true);
-  };
-
   const handleCreate = () => {
-    setEditingAnnouncement(null);
     setIsModalOpen(true);
-  };
-
-  const handleDelete = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation();
-    if (confirm("Are you sure you want to delete this announcement?")) {
-      // Implement delete mutation here
-      console.log("Delete announcement", id);
-    }
   };
 
   return (
@@ -79,6 +56,8 @@ export function AnnouncementList() {
             <Input
               placeholder="Search"
               className="pl-10 h-11 bg-muted border-none rounded-lg"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <Button
@@ -118,24 +97,6 @@ export function AnnouncementList() {
                   <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">
                     {item.time}
                   </span>
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="w-8 h-8 rounded-full hover:bg-primary/10 hover:text-primary"
-                      onClick={(e) => handleEdit(e, item)}
-                    >
-                      <Pencil className="w-3.5 h-3.5" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="w-8 h-8 rounded-full hover:bg-destructive/10 hover:text-destructive"
-                      onClick={(e) => handleDelete(e, item.id)}
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </Button>
-                  </div>
                 </div>
               </div>
             ))}
@@ -144,7 +105,6 @@ export function AnnouncementList() {
       <CreateMessageModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        initialData={editingAnnouncement?.originalData}
       />
     </div>
   );

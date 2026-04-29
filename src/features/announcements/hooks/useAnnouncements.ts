@@ -1,17 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAllAnnouncements, markAllRead } from "../api/announcements.api";
+import {
+  getAllAnnouncements,
+  sendAnnouncement,
+} from "../api/announcements.api";
+import { CreateAnnouncementValues } from "../types";
 
-export function useAnnouncements() {
+export function useAnnouncements(search?: string) {
   return useQuery({
-    queryKey: ["announcements"],
-    queryFn: getAllAnnouncements,
+    queryKey: ["announcements", search],
+    queryFn: () => getAllAnnouncements(search),
   });
 }
 
-export function useMarkAllRead() {
+export function useSendAnnouncement() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: markAllRead,
+    mutationFn: (data: CreateAnnouncementValues) => sendAnnouncement(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["announcements"] });
     },

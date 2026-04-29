@@ -16,31 +16,24 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
-const messageSchema = z.object({
-  title: z.string().min(2, "Title is required"),
-  message: z.string().min(5, "Message is required"),
-});
+import { useSendAnnouncement } from "../hooks/useAnnouncements";
+import { CreateAnnouncementValues, createAnnouncementSchema } from "../types";
 
-type MessageValues = z.infer<typeof messageSchema>;
+type MessageValues = CreateAnnouncementValues;
 
 interface CreateMessageModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialData?: {
-    _id: string;
-    title?: string;
-    message?: string;
-    description?: string;
-  };
 }
 
 export function CreateMessageModal({
   isOpen,
   onClose,
-  initialData,
 }: CreateMessageModalProps) {
+  const { mutateAsync: sendAnnouncement, isPending } = useSendAnnouncement();
+
   const form = useForm<MessageValues>({
-    resolver: zodResolver(messageSchema),
+    resolver: zodResolver(createAnnouncementSchema),
     defaultValues: {
       title: "",
       message: "",
@@ -48,27 +41,21 @@ export function CreateMessageModal({
   });
 
   useEffect(() => {
-    if (initialData) {
-      form.reset({
-        title: initialData.title || "",
-        message: initialData.message || initialData.description || "",
-      });
-    } else {
+    if (isOpen) {
       form.reset({
         title: "",
         message: "",
       });
     }
-  }, [initialData, form, isOpen]);
+  }, [form, isOpen]);
 
   const onSubmit = async (values: MessageValues) => {
     try {
-      // Implement create/update mutation here
-      console.log("Submit message", values);
-      toast.success(initialData ? "Message updated" : "Message created");
+      await sendAnnouncement(values);
+      toast.success("Announcement sent successfully");
       onClose();
     } catch {
-      toast.error("Failed to submit message");
+      toast.error("Failed to send announcement");
     }
   };
 
@@ -77,7 +64,7 @@ export function CreateMessageModal({
       <DialogContent className="sm:max-w-xl p-10 border-none shadow-lg rounded-3xl">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-2xl font-bold text-foreground">
-            {initialData ? "Edit Message" : "Create New Message"}
+            Send New Message
           </DialogTitle>
           <p className="text-sm text-muted-foreground mt-2">
             Draft a communication for the Transparency Hub. Be clear, concise,
@@ -129,9 +116,10 @@ export function CreateMessageModal({
             </Button>
             <Button
               type="submit"
+              disabled={isPending}
               className="bg-primary hover:bg-primary/90 text-white rounded-full font-bold h-12 px-8 flex items-center gap-2 shadow-lg shadow-primary/20"
             >
-              {initialData ? "Update Message" : "Send Message"}
+              {isPending ? "Sending..." : "Send Message"}
               <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
