@@ -77,37 +77,71 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: #2d2d2d;
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --card: #1a1a1a;
+  --card-foreground: #ffffff;
+  --popover: #1a1a1a;
+  --popover-foreground: #ffffff;
+  --primary: #84c225;
+  --primary-foreground: #ffffff;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #ffffff;
+  --muted: #2a2a2a;
+  --muted-foreground: #a3a3a3;
+  --accent: #2a2a2a;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #2a2a2a;
+  --input: #2a2a2a;
+  --ring: #84c225;
+  
+  /* Chart colors */
+  --chart-1: #84c225;
+  --chart-2: #3b82f6;
+  --chart-3: #ef4444;
+  --chart-4: #eab308;
+  --chart-5: #8b5cf6;
+  
+  /* Sidebar */
+  --sidebar-background: #1a1a1a;
+  --sidebar-foreground: #a3a3a3;
+  --sidebar-primary: #84c225;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #84c225;
+  --sidebar-border: #2a2a2a;
+  --sidebar-ring: #84c225;
+}
+
+/* Custom button styles for better dark mode appearance */
+.dark .btn-primary,
+.dark button.bg-primary,
+.dark [class*="bg-primary"] {
+  color: #ffffff !important;
+}
+
+.dark button.bg-primary:hover,
+.dark [class*="bg-primary"]:hover {
+  opacity: 0.9;
+}
+
+/* Ensure text on primary background is always white */
+.bg-primary,
+[class*="bg-primary"] {
+  color: var(--primary-foreground);
+}
+
+/* Specific fix for login outline button in dark mode */
+.dark button.border-primary {
+  border-color: #84c225;
+  color: #84c225;
+}
+
+.dark button.border-primary:hover {
+  background-color: #84c225;
+  color: #ffffff;
 }
 
 @layer base {

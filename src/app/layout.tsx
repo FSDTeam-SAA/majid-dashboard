@@ -4,6 +4,7 @@ import "./globals.css";
 import MainProviders from "@/Providers/MainProviders";
 import Provider from "@/Providers/Provider";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "next-themes";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -24,9 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
-        <MainProviders>
-          <Provider> {children} </Provider>
-        </MainProviders>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <MainProviders>
+            <Provider> {children} </Provider>
+          </MainProviders>
+        </ThemeProvider>
         <Toaster position="top-right" closeButton />
       </body>
     </html>
