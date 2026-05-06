@@ -83,7 +83,7 @@ export function RecentUsersTable() {
         <Button
           variant="outline"
           size="sm"
-          className="h-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white px-6"
+          className="h-8 rounded-full border-primary text-primary px-6"
           onClick={() => setSelectedUser(row.original)}
         >
           View
@@ -103,9 +103,7 @@ export function RecentUsersTable() {
       <DataTable columns={columns} data={users} isLoading={isLoading} />
       <div className="flex justify-end mt-4">
         <Link href="/all-users">
-          <Button className="bg-primary hover:bg-primary/90 text-white rounded-lg px-8">
-            View All
-          </Button>
+          <Button className="rounded-lg px-8">View All</Button>
         </Link>
       </div>
 

@@ -74,7 +74,7 @@ export function UsersTable() {
         <Button
           variant="outline"
           size="sm"
-          className="h-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white px-6"
+          className="h-8 rounded-full border-primary text-primary px-6"
           onClick={() => setSelectedUser(row.original)}
         >
           View

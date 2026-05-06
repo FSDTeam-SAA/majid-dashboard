@@ -43,9 +43,9 @@ export default function PricingPlanPage() {
 
         <Button
           onClick={handleAdd}
-          className="bg-primary hover:bg-primary/90 text-white rounded-full font-bold h-11 px-6 shadow-lg shadow-primary/20 flex items-center gap-2"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full font-bold h-11 px-6 shadow-lg shadow-primary/20 flex items-center gap-2"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="w-5 h-5 text-primary-foreground" />
           Add New Plan
         </Button>
       </div>
@@ -55,7 +55,7 @@ export default function PricingPlanPage() {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-3xl p-0 border-none overflow-hidden rounded-3xl">
           <DialogHeader className="p-8 pb-0">
-            <DialogTitle className="text-2xl font-bold">
+            <DialogTitle className="text-2xl font-bold text-foreground">
               {selectedPlanId ? "Edit Pricing Plan" : "Create New Plan"}
             </DialogTitle>
           </DialogHeader>

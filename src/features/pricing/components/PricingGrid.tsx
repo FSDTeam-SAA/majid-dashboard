@@ -33,7 +33,7 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
       title: p.name,
       badge: p.type,
       price: p.priceLabel || (p.price ? `$${p.price}` : "Contact Us"),
-      period: "", // Period can be handled via priceLabel now
+      period: "",
       color: p.type?.toLowerCase().includes("starter") ? "blue" : "purple",
       features: p.features.map((f: { name: string; included?: boolean }) => ({
         text: f.name,
@@ -60,12 +60,12 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
         <Card
           key={i}
           className={cn(
-            "border-none shadow-md overflow-hidden relative pt-4",
+            "border shadow-md overflow-hidden relative pt-4 transition-all duration-300 hover:shadow-xl",
             plan.color === "blue"
-              ? "bg-blue-50/50"
+              ? "bg-blue-50/50 dark:bg-blue-950/20 border-blue-200/50 dark:border-blue-800/30"
               : plan.color === "green"
-                ? "bg-green-50/50"
-                : "bg-purple-50/50",
+                ? "bg-green-50/50 dark:bg-green-950/20 border-green-200/50 dark:border-green-800/30"
+                : "bg-purple-50/50 dark:bg-purple-950/20 border-purple-200/50 dark:border-purple-800/30",
           )}
         >
           <CardHeader className="space-y-4 px-8 pb-4">
@@ -74,8 +74,10 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
                 className={cn(
                   "w-fit rounded-lg px-3 py-1 font-bold text-[10px]",
                   plan.color === "blue"
-                    ? "bg-blue-100 text-blue-600 hover:bg-blue-100"
-                    : "bg-purple-100 text-purple-600 hover:bg-purple-100",
+                    ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/50"
+                    : plan.color === "green"
+                      ? "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50"
+                      : "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50",
                 )}
               >
                 {plan.badge}
@@ -110,10 +112,10 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
                     className={cn(
                       "p-1 rounded-full",
                       plan.color === "blue"
-                        ? "text-blue-500"
+                        ? "text-blue-600 dark:text-blue-400"
                         : plan.color === "green"
-                          ? "text-green-500"
-                          : "text-purple-500",
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-purple-600 dark:text-purple-400",
                     )}
                   >
                     <feature.icon className="w-4 h-4" />
@@ -129,7 +131,7 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
             <Button
               variant="outline"
               onClick={() => onEdit(plan.id)}
-              className="w-full bg-white rounded-full border-primary text-primary hover:bg-primary hover:text-white font-bold h-11"
+              className="w-full rounded-full border-primary text-primary font-bold h-11 transition-all duration-300"
             >
               Edit
             </Button>
