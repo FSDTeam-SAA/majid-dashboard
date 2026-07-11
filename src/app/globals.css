@@ -127,9 +127,8 @@
   opacity: 0.9;
 }
 
-/* Ensure text on primary background is always white */
-.bg-primary,
-[class*="bg-primary"] {
+/* Ensure text on actual primary surfaces stays readable */
+.bg-primary {
   color: var(--primary-foreground);
 }
 
@@ -414,4 +413,3 @@
   background: #fff;
   border-color: #d1d5db;
 }
-

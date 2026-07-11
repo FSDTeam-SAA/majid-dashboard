@@ -17,3 +17,16 @@ export const createPaymentSession = async (data: {
   const response = await api.post("/payment/create-payment", data);
   return response.data;
 };
+
+export const updatePaymentStatus = async (
+  id: string,
+  paymentStatus: "pending" | "paid" | "failed",
+) => {
+  const response = await api.patch(`/payment/status/${id}`, { paymentStatus });
+  return response.data;
+};
+
+export const deletePayment = async (id: string) => {
+  const response = await api.delete(`/payment/${id}`);
+  return response.data;
+};

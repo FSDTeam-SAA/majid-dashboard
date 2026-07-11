@@ -7,46 +7,18 @@ import { DataTable } from "@/components/ui/data-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { UserDetailsModal } from "../../users/components/UserDetailsModal";
-import { useUsers } from "../../users/hooks/useUsers";
-
-interface User {
-  id: string;
-  name: string;
-  deviceName: string;
-  price: string;
-  date: string;
-  contract: string;
-  avatar: string;
-}
-
-interface UserApiRecord {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  deviceName?: string;
-  price?: string;
-  createdAt?: string;
-  phone?: string;
-  email: string;
-  image?: { url: string };
-}
+import {
+  DashboardUserRow,
+  useDashboardOverview,
+} from "../hooks/useDashboardOverview";
 
 export function RecentUsersTable() {
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const { data: usersData, isLoading } = useUsers();
+  const [selectedUser, setSelectedUser] = useState<DashboardUserRow | null>(
+    null,
+  );
+  const { recentUsers, isLoading } = useDashboardOverview();
 
-  const users: User[] =
-    usersData?.data?.slice(0, 5).map((u: UserApiRecord) => ({
-      id: u._id,
-      name: `${u.firstName} ${u.lastName}`,
-      deviceName: u.deviceName || "N/A",
-      price: u.price || "$0.00",
-      date: u.createdAt ? new Date(u.createdAt).toLocaleDateString() : "N/A",
-      contract: u.phone || u.email,
-      avatar: u.image?.url || `https://i.pravatar.cc/150?u=${u._id}`,
-    })) || [];
-
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<DashboardUserRow>[] = [
     {
       accessorKey: "name",
       header: "USER NAME",
@@ -97,10 +69,10 @@ export function RecentUsersTable() {
       <div className="flex flex-col gap-1">
         <h2 className="text-lg font-bold">Recent Users</h2>
         <p className="text-xs text-muted-foreground">
-          Real-time device integrity metrics and verification health.
+          Latest users from the backend, sorted by registration date.
         </p>
       </div>
-      <DataTable columns={columns} data={users} isLoading={isLoading} />
+      <DataTable columns={columns} data={recentUsers} isLoading={isLoading} />
       <div className="flex justify-end mt-4">
         <Link href="/all-users">
           <Button className="rounded-lg px-8">View All</Button>

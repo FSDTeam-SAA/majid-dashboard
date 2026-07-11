@@ -6,52 +6,89 @@ import { DataTable } from "@/components/ui/data-table";
 import { Pagination } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, Download, Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 import { TransactionDetailsModal } from "./TransactionDetailsModal";
 
-import { useAllPayments } from "../hooks/usePayments";
+import {
+  useAllPayments,
+  useDeletePayment,
+  useUpdatePaymentStatus,
+} from "../hooks/usePayments";
 
 export interface Payment {
   id: string;
+  originalId: string;
   user: string;
   amount: string;
   date: string;
-  status: "PAID" | "PENDING";
+  dateTime: string;
+  status: "PAID" | "PENDING" | "FAILED";
+  rawStatus: "pending" | "paid" | "failed";
+  method: string;
 }
 
 interface PaymentApiRecord {
   _id: string;
-  user?: {
+  userId?: {
     firstName?: string;
     lastName?: string;
   };
   amount: number;
   createdAt: string;
-  status: string;
+  paymentStatus?: "pending" | "paid" | "failed";
+  paymentMethod?: string;
 }
+
+const ITEMS_PER_PAGE = 10;
 
 export function PaymentHistoryTable() {
   const [page, setPage] = useState(1);
   const { data: paymentsData, isLoading } = useAllPayments();
+  const updateStatusMutation = useUpdatePaymentStatus();
+  const deletePaymentMutation = useDeletePayment();
   const [selectedTransaction, setSelectedTransaction] =
     useState<Payment | null>(null);
 
-  const payments: Payment[] =
-    paymentsData?.data?.map((p: PaymentApiRecord) => ({
-      id: p._id.substring(0, 8).toUpperCase(),
-      user: p.user?.firstName
-        ? `${p.user.firstName} ${p.user.lastName}`
-        : "Unknown User",
-      amount: `$${p.amount.toFixed(2)}`,
-      date: new Date(p.createdAt).toLocaleDateString(undefined, {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }),
-      status: p.status === "completed" ? "PAID" : "PENDING",
-    })) || [];
+  const paymentRecords: PaymentApiRecord[] = Array.isArray(paymentsData?.data)
+    ? paymentsData.data
+    : [];
+
+  const payments: Payment[] = paymentRecords.map((p) => ({
+    id: p._id.substring(0, 8).toUpperCase(),
+    originalId: p._id,
+    user: p.userId?.firstName
+      ? `${p.userId.firstName} ${p.userId.lastName ?? ""}`.trim()
+      : "Unknown User",
+    amount: `$${(p.amount || 0).toFixed(2)}`,
+    date: new Date(p.createdAt).toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }),
+    dateTime: new Date(p.createdAt).toLocaleString(),
+    status:
+      p.paymentStatus === "paid"
+        ? "PAID"
+        : p.paymentStatus === "failed"
+          ? "FAILED"
+          : "PENDING",
+    rawStatus: p.paymentStatus || "pending",
+    method: p.paymentMethod || "Stripe",
+  }));
+
+  const totalPages =
+    paymentsData?.meta?.totalPage ||
+    paymentsData?.meta?.totalPages ||
+    Math.max(1, Math.ceil(payments.length / ITEMS_PER_PAGE));
+  const currentPage = Math.min(page, totalPages);
+
+  const paginatedPayments = payments.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
 
   const columns: ColumnDef<Payment>[] = [
     {
@@ -85,7 +122,9 @@ export function PaymentHistoryTable() {
             "rounded-md px-3 py-1 font-semibold text-[10px]",
             row.original.status === "PAID"
               ? "bg-green-100 text-green-600 hover:bg-green-100"
-              : "bg-orange-100 text-orange-600 hover:bg-orange-100",
+              : row.original.status === "FAILED"
+                ? "bg-red-100 text-red-600 hover:bg-red-100"
+                : "bg-orange-100 text-orange-600 hover:bg-orange-100",
           )}
         >
           {row.original.status}
@@ -108,14 +147,8 @@ export function PaymentHistoryTable() {
           <Button
             variant="ghost"
             size="icon"
-            className="w-8 h-8 text-muted-foreground hover:text-primary"
-          >
-            <Download className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
             className="w-8 h-8 text-muted-foreground hover:text-destructive"
+            onClick={() => setSelectedTransaction(row.original)}
           >
             <Trash2 className="w-4 h-4" />
           </Button>
@@ -126,11 +159,15 @@ export function PaymentHistoryTable() {
 
   return (
     <div className="space-y-6">
-      <DataTable columns={columns} data={payments} isLoading={isLoading} />
+      <DataTable
+        columns={columns}
+        data={paginatedPayments}
+        isLoading={isLoading}
+      />
       <div className="flex items-center justify-center mt-8">
         <Pagination
-          currentPage={page}
-          totalPages={paymentsData?.meta?.totalPages || 1}
+          currentPage={currentPage}
+          totalPages={totalPages}
           onPageChange={setPage}
         />
       </div>
@@ -139,6 +176,69 @@ export function PaymentHistoryTable() {
         isOpen={!!selectedTransaction}
         onClose={() => setSelectedTransaction(null)}
         transactionData={selectedTransaction}
+        isUpdating={updateStatusMutation.isPending}
+        isDeleting={deletePaymentMutation.isPending}
+        onStatusChange={async (paymentStatus) => {
+          if (!selectedTransaction) return;
+
+          try {
+            await updateStatusMutation.mutateAsync({
+              id: selectedTransaction.originalId,
+              paymentStatus,
+            });
+
+            setSelectedTransaction((current) =>
+              current
+                ? {
+                    ...current,
+                    rawStatus: paymentStatus,
+                    status:
+                      paymentStatus === "paid"
+                        ? "PAID"
+                        : paymentStatus === "failed"
+                          ? "FAILED"
+                          : "PENDING",
+                  }
+                : current,
+            );
+            toast.success("Payment status updated successfully");
+          } catch (error: unknown) {
+            const message =
+              typeof error === "object" &&
+              error !== null &&
+              "response" in error &&
+              typeof (error as { response?: { data?: { message?: string } } })
+                .response?.data?.message === "string"
+                ? (error as { response?: { data?: { message?: string } } })
+                    .response?.data?.message
+                : "Failed to update payment status";
+
+            toast.error(message);
+          }
+        }}
+        onDelete={async () => {
+          if (!selectedTransaction) return;
+
+          try {
+            await deletePaymentMutation.mutateAsync(
+              selectedTransaction.originalId,
+            );
+            toast.success("Payment deleted successfully");
+            setSelectedTransaction(null);
+          } catch (error: unknown) {
+            const message =
+              typeof error === "object" &&
+              error !== null &&
+              "response" in error &&
+              typeof (error as { response?: { data?: { message?: string } } })
+                .response?.data?.message === "string"
+                ? (error as { response?: { data?: { message?: string } } })
+                    .response?.data?.message
+                : "Failed to delete payment";
+
+            toast.error(message);
+          }
+        }}
       />
     </div>
   );

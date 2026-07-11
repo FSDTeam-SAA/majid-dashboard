@@ -61,6 +61,7 @@ export default function PricingPlanPage() {
           </DialogHeader>
           <div className="max-h-[80vh] overflow-y-auto">
             <PricingEditForm
+              key={selectedPlanId ?? "new-plan"}
               planId={selectedPlanId}
               onSuccess={() => setIsModalOpen(false)}
             />

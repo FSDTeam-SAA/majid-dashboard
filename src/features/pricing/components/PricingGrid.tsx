@@ -8,20 +8,26 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { useSubscriptions } from "../hooks/usePricing";
-import { SubscriptionPlan } from "../types";
+import { normalizeSubscriptionPlan, SubscriptionPlan } from "../types";
 
 interface ProcessedPlan {
   id: string;
   title: string;
   badge?: string;
   price: string;
-  period: string;
+  description: string;
+  ctaText: string;
   color: string;
-  features: Array<{ text: string; icon: React.ElementType }>;
+  tags: string[];
+  features: Array<{
+    text: string;
+    included: boolean;
+    icon: React.ElementType;
+  }>;
 }
 
 export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
@@ -29,16 +35,32 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
 
   const plans: ProcessedPlan[] =
     subscriptionsData?.data?.map((p: SubscriptionPlan) => ({
-      id: p._id,
-      title: p.name,
-      badge: p.type,
-      price: p.priceLabel || (p.price ? `$${p.price}` : "Contact Us"),
-      period: "",
-      color: p.type?.toLowerCase().includes("starter") ? "blue" : "purple",
-      features: p.features.map((f: { name: string; included?: boolean }) => ({
-        text: f.name,
-        icon: Check,
-      })),
+      ...(() => {
+        const plan = normalizeSubscriptionPlan(p);
+        return {
+          id: plan._id,
+          title: plan.name,
+          badge: plan.type,
+          price: plan.priceLabel,
+          description: plan.description,
+          ctaText: plan.ctaText,
+          color: plan.type.toLowerCase().includes("starter")
+            ? "blue"
+            : plan.customPricing
+              ? "green"
+              : "purple",
+          tags: [
+            plan.isPopular ? "Popular" : "",
+            plan.apiAccess ? "API Access" : "",
+            plan.customPricing ? "Custom Pricing" : "",
+          ].filter(Boolean),
+          features: plan.features.map((f) => ({
+            text: f.name,
+            included: f.included,
+            icon: f.included ? Check : X,
+          })),
+        };
+      })(),
     })) || [];
 
   if (isLoading) {
@@ -50,6 +72,19 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
             className="h-[400px] bg-muted animate-pulse rounded-2xl"
           />
         ))}
+      </div>
+    );
+  }
+
+  if (!plans.length) {
+    return (
+      <div className="rounded-3xl border border-dashed border-border bg-card p-12 text-center">
+        <h3 className="text-lg font-bold text-foreground">
+          No pricing plans yet
+        </h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Create your first pricing plan and it will appear here dynamically.
+        </p>
       </div>
     );
   }
@@ -90,51 +125,73 @@ export function PricingGrid({ onEdit }: { onEdit: (id: string) => void }) {
                 {plan.title}
               </h3>
               {plan.price && (
-                <div className="flex items-baseline gap-1">
+                <div className="flex items-baseline gap-1 flex-wrap">
                   <span className="text-3xl font-bold text-foreground">
                     {plan.price}
                   </span>
-                  <span className="text-sm text-muted-foreground">
-                    {plan.period}
-                  </span>
                 </div>
               )}
+              <p className="pt-2 text-sm leading-6 text-muted-foreground">
+                {plan.description}
+              </p>
             </div>
           </CardHeader>
           <CardContent className="px-8 py-6 space-y-4">
-            {plan.features.map(
-              (
-                feature: { text: string; icon: React.ElementType },
-                j: number,
-              ) => (
-                <div key={j} className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      "p-1 rounded-full",
-                      plan.color === "blue"
+            {!!plan.tags.length && (
+              <div className="flex flex-wrap gap-2">
+                {plan.tags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="secondary"
+                    className="rounded-full px-3 py-1 text-[10px] font-semibold"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+            {plan.features.map((feature, j: number) => (
+              <div key={j} className="flex items-center gap-3">
+                <div
+                  className={cn(
+                    "p-1 rounded-full",
+                    feature.included
+                      ? plan.color === "blue"
                         ? "text-blue-600 dark:text-blue-400"
                         : plan.color === "green"
                           ? "text-green-600 dark:text-green-400"
-                          : "text-purple-600 dark:text-purple-400",
-                    )}
-                  >
-                    <feature.icon className="w-4 h-4" />
-                  </div>
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {feature.text}
-                  </span>
+                          : "text-purple-600 dark:text-purple-400"
+                      : "text-muted-foreground/60",
+                  )}
+                >
+                  <feature.icon className="w-4 h-4" />
                 </div>
-              ),
-            )}
+                <span
+                  className={cn(
+                    "text-sm font-medium",
+                    feature.included
+                      ? "text-muted-foreground"
+                      : "text-muted-foreground line-through opacity-70",
+                  )}
+                >
+                  {feature.text}
+                </span>
+              </div>
+            ))}
           </CardContent>
           <CardFooter className="px-8 pb-8 pt-4">
-            <Button
-              variant="outline"
-              onClick={() => onEdit(plan.id)}
-              className="w-full rounded-full border-primary text-primary font-bold h-11 transition-all duration-300"
-            >
-              Edit
-            </Button>
+            <div className="w-full space-y-3">
+              <Button className="w-full rounded-full font-bold h-11">
+                {plan.ctaText}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => onEdit(plan.id)}
+                className="w-full rounded-full border-primary text-primary font-bold h-11 transition-all duration-300"
+              >
+                Edit
+              </Button>
+            </div>
           </CardFooter>
         </Card>
       ))}

@@ -10,10 +10,12 @@ import {
   Area,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useState } from "react";
 import { useDashboardChart } from "../hooks/useDashboardChart";
+import { useDashboardOverview } from "../hooks/useDashboardOverview";
 
 interface ChartDataRecord {
   date: string;
@@ -23,9 +25,10 @@ interface ChartDataRecord {
 
 export function OverviewChart() {
   const [filter, setFilter] = useState("30days");
-  const { data: chartData, isLoading } = useDashboardChart(filter);
+  const { data: chartData, isLoading, isError } = useDashboardChart(filter);
+  const { recentUsers, isLoading: isUsersLoading } = useDashboardOverview();
 
-  const formattedData =
+  const apiData =
     chartData?.data?.map((d: ChartDataRecord) => ({
       name: new Date(d.date).toLocaleDateString(undefined, {
         month: "short",
@@ -35,8 +38,22 @@ export function OverviewChart() {
       shopkeepers: d.shopkeeper,
     })) || [];
 
+  const fallbackData = recentUsers
+    .slice()
+    .reverse()
+    .map((user) => ({
+      name: user.date,
+      users: 1,
+      shopkeepers: 0,
+    }));
+
+  const formattedData = apiData.length > 0 ? apiData : fallbackData;
+  const showLoading =
+    isLoading || (isUsersLoading && formattedData.length === 0);
+  const showEmpty = !showLoading && formattedData.length === 0;
+
   return (
-    <Card className="col-span-full border-none shadow-sm">
+    <Card className="col-span-full lg:col-span-8 border-none shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between pb-8">
         <CardTitle className="text-lg font-bold">New Members</CardTitle>
         <Tabs defaultValue="30days" onValueChange={setFilter}>
@@ -55,8 +72,14 @@ export function OverviewChart() {
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">
-          {isLoading ? (
-            <div className="w-full h-full bg-muted animate-pulse rounded-xl" />
+          {showLoading ? (
+            <Skeleton className="w-full h-full rounded-xl" />
+          ) : showEmpty ? (
+            <div className="flex h-full items-center justify-center rounded-xl border border-dashed border-border text-sm text-muted-foreground">
+              {isError
+                ? "Chart data load korte problem hocche. Backend response check koro."
+                : "Chart data available nai."}
+            </div>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={formattedData}>

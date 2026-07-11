@@ -8,19 +8,34 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, CreditCard } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Check, CreditCard, Trash2 } from "lucide-react";
 import { Payment } from "./PaymentHistoryTable";
 
 interface TransactionDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   transactionData: Partial<Payment> | null;
+  onStatusChange: (paymentStatus: "pending" | "paid" | "failed") => void;
+  onDelete: () => void;
+  isUpdating?: boolean;
+  isDeleting?: boolean;
 }
 
 export function TransactionDetailsModal({
   isOpen,
   onClose,
   transactionData,
+  onStatusChange,
+  onDelete,
+  isUpdating,
+  isDeleting,
 }: TransactionDetailsModalProps) {
   if (!transactionData) return null;
 
@@ -40,9 +55,15 @@ export function TransactionDetailsModal({
               : `+${transactionData.amount || "0.00"}`}
           </h2>
 
-          <Badge className="mt-2 bg-green-50 text-green-600 hover:bg-green-50 px-3 py-1 font-semibold flex items-center gap-1 rounded-full text-xs">
+          <Badge
+            className={
+              transactionData.status === "PAID"
+                ? "mt-2 bg-green-50 text-green-600 hover:bg-green-50 px-3 py-1 font-semibold flex items-center gap-1 rounded-full text-xs"
+                : "mt-2 bg-orange-50 text-orange-600 hover:bg-orange-50 px-3 py-1 font-semibold flex items-center gap-1 rounded-full text-xs"
+            }
+          >
             <Check className="w-3 h-3" />
-            Success
+            {transactionData.status === "PAID" ? "Success" : "Pending"}
           </Badge>
         </div>
 
@@ -50,12 +71,14 @@ export function TransactionDetailsModal({
           <div className="space-y-4">
             <div className="flex items-start justify-between text-sm">
               <span className="text-muted-foreground">Transaction ID</span>
-              <span className="font-medium text-foreground">TXN-84732</span>
+              <span className="font-medium text-foreground">
+                {transactionData.id ? `#${transactionData.id}` : "N/A"}
+              </span>
             </div>
             <div className="flex items-start justify-between text-sm">
               <span className="text-muted-foreground">Date & Time</span>
               <span className="font-medium text-foreground">
-                Oct 24, 2023, 14:32 PM
+                {transactionData.dateTime || transactionData.date || "N/A"}
               </span>
             </div>
             <div className="flex items-start justify-between text-sm">
@@ -65,28 +88,50 @@ export function TransactionDetailsModal({
               </span>
             </div>
             <div className="flex items-start justify-between text-sm">
-              <span className="text-muted-foreground">Type</span>
-              <span className="font-medium text-foreground">Top-up</span>
+              <span className="text-muted-foreground">Status</span>
+              <div className="min-w-[160px]">
+                <Select
+                  value={transactionData.rawStatus || "pending"}
+                  onValueChange={(value) =>
+                    onStatusChange(value as "pending" | "paid" | "failed")
+                  }
+                  disabled={isUpdating}
+                >
+                  <SelectTrigger className="w-full bg-background text-foreground">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="paid">Paid</SelectItem>
+                    <SelectItem value="failed">Failed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <div className="flex items-start justify-between text-sm">
               <span className="text-muted-foreground">Payment Method</span>
               <div className="flex items-center gap-2 font-medium text-foreground">
                 <CreditCard className="w-4 h-4 text-muted-foreground" />
-                Visa ending in 4242
+                Backend record
               </div>
             </div>
             <div className="flex items-start justify-between text-sm">
-              <span className="text-muted-foreground">Billing Address</span>
-              <div className="text-right font-medium text-foreground flex flex-col">
-                <span>123 Main St, Suite 400</span>
-                <span>San Francisco, CA 94105</span>
-              </div>
+              <span className="text-muted-foreground">Reference</span>
+              <span className="font-medium text-foreground">
+                {transactionData.originalId || "N/A"}
+              </span>
             </div>
           </div>
 
-          <div className="pt-4">
-            <Button className="w-full rounded-full bg-primary hover:bg-primary/90 text-white font-bold h-12">
-              Download Receipt
+          <div className="grid grid-cols-1 gap-3 pt-4">
+            <Button
+              variant="destructive"
+              className="w-full rounded-full font-bold h-12"
+              onClick={onDelete}
+              disabled={isDeleting || transactionData.rawStatus === "paid"}
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              {isDeleting ? "Deleting..." : "Delete Payment"}
             </Button>
           </div>
         </div>

@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import {
   CreateSubscriptionValues,
   createSubscriptionSchema,
+  normalizeSubscriptionPlan,
   SubscriptionPlan,
 } from "../types";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -64,33 +65,39 @@ export function PricingEditForm({
   const features = useWatch({ control, name: "features" }) || [];
 
   useEffect(() => {
-    if (planId && subscriptionsData?.data) {
+    if (!planId) {
+      form.reset({
+        name: "",
+        type: "",
+        price: 0,
+        priceLabel: "",
+        description: "",
+        features: [],
+        isPopular: false,
+        apiAccess: false,
+        customPricing: false,
+        ctaText: "",
+      });
+      return;
+    }
+
+    if (subscriptionsData?.data) {
       const plan = subscriptionsData.data.find(
         (p: SubscriptionPlan) => p._id === planId,
       );
       if (plan) {
-        const legacyPlan = plan as unknown as {
-          title?: string;
-          badge?: string;
-          price?: { amount: number };
-          features: (string | { name: string; included?: boolean })[];
-        };
+        const normalizedPlan = normalizeSubscriptionPlan(plan);
         form.reset({
-          name: plan.name || legacyPlan.title || "",
-          type: plan.type || legacyPlan.badge || "",
-          price: plan.price || legacyPlan.price?.amount || 0,
-          priceLabel: plan.priceLabel || "",
-          description: plan.description || "",
-          isPopular: plan.isPopular || false,
-          apiAccess: plan.apiAccess || false,
-          customPricing: plan.customPricing || false,
-          ctaText: plan.ctaText || "",
-          features: plan.features.map(
-            (f: string | { name: string; included?: boolean }) =>
-              typeof f === "string"
-                ? { name: f, included: true }
-                : { name: f.name, included: f.included ?? true },
-          ),
+          name: normalizedPlan.name,
+          type: normalizedPlan.type,
+          price: normalizedPlan.price,
+          priceLabel: normalizedPlan.priceLabel,
+          description: normalizedPlan.description,
+          isPopular: normalizedPlan.isPopular,
+          apiAccess: normalizedPlan.apiAccess,
+          customPricing: normalizedPlan.customPricing,
+          ctaText: normalizedPlan.ctaText,
+          features: normalizedPlan.features,
         });
       }
     }
@@ -144,7 +151,7 @@ export function PricingEditForm({
               <Input
                 {...form.register("name")}
                 placeholder="Enterprise"
-                className="h-12 bg-card rounded-xl"
+                className="h-12 rounded-xl border-border bg-background text-foreground placeholder:text-muted-foreground"
               />
               {form.formState.errors.name && (
                 <p className="text-xs text-destructive">
@@ -159,7 +166,7 @@ export function PricingEditForm({
               <Input
                 {...form.register("type")}
                 placeholder="ENTERPRISE"
-                className="h-12 bg-card rounded-xl"
+                className="h-12 rounded-xl border-border bg-background text-foreground placeholder:text-muted-foreground"
               />
               {form.formState.errors.type && (
                 <p className="text-xs text-destructive">
@@ -173,7 +180,7 @@ export function PricingEditForm({
                 type="number"
                 {...form.register("price", { valueAsNumber: true })}
                 placeholder="0"
-                className="h-12 bg-card rounded-xl"
+                className="h-12 rounded-xl border-border bg-background text-foreground placeholder:text-muted-foreground"
               />
               {form.formState.errors.price && (
                 <p className="text-xs text-destructive">
@@ -188,7 +195,7 @@ export function PricingEditForm({
               <Input
                 {...form.register("priceLabel")}
                 placeholder="Custom or $0/month"
-                className="h-12 bg-card rounded-xl"
+                className="h-12 rounded-xl border-border bg-background text-foreground placeholder:text-muted-foreground"
               />
               {form.formState.errors.priceLabel && (
                 <p className="text-xs text-destructive">
@@ -205,7 +212,7 @@ export function PricingEditForm({
             <Textarea
               {...form.register("description")}
               placeholder="Custom solution for large companies"
-              className="bg-card rounded-xl min-h-[100px]"
+              className="min-h-[100px] rounded-xl border-border bg-background text-foreground placeholder:text-muted-foreground"
             />
             {form.formState.errors.description && (
               <p className="text-xs text-destructive">
@@ -260,7 +267,7 @@ export function PricingEditForm({
             <Input
               {...form.register("ctaText")}
               placeholder="Contact Us"
-              className="h-12 bg-card rounded-xl"
+              className="h-12 rounded-xl border-border bg-background text-foreground placeholder:text-muted-foreground"
             />
             {form.formState.errors.ctaText && (
               <p className="text-xs text-destructive">
@@ -281,7 +288,7 @@ export function PricingEditForm({
                   e.key === "Enter" && (e.preventDefault(), addFeature())
                 }
                 placeholder="+ Add Features"
-                className="h-12 bg-card rounded-xl flex-1"
+                className="h-12 flex-1 rounded-xl border-border bg-background text-foreground placeholder:text-muted-foreground"
               />
               <Button
                 type="button"
@@ -298,7 +305,30 @@ export function PricingEditForm({
                   key={index}
                   className="flex items-center gap-2 bg-secondary px-3 py-1.5 rounded-lg text-sm"
                 >
-                  {feature.name}
+                  <button
+                    type="button"
+                    className={`h-2.5 w-2.5 rounded-full ${feature.included ? "bg-primary" : "bg-muted-foreground/40"}`}
+                    onClick={() =>
+                      form.setValue(
+                        "features",
+                        features.map((item, itemIndex) =>
+                          itemIndex === index
+                            ? { ...item, included: !item.included }
+                            : item,
+                        ),
+                      )
+                    }
+                    title={
+                      feature.included ? "Mark as excluded" : "Mark as included"
+                    }
+                  />
+                  <span
+                    className={
+                      feature.included ? "" : "line-through opacity-70"
+                    }
+                  >
+                    {feature.name}
+                  </span>
                   <button type="button" onClick={() => removeFeature(index)}>
                     <X className="w-4 h-4 text-muted-foreground hover:text-destructive" />
                   </button>
