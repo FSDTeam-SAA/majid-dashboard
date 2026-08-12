@@ -22,3 +22,14 @@ export const changePassword = async (data: Record<string, unknown>) => {
   const response = await api.post("/auth/change-password", data);
   return response.data;
 };
+
+export const updateUserAdmin = async ({
+  userId,
+  data,
+}: {
+  userId: string;
+  data: Record<string, unknown>;
+}) => {
+  const response = await api.put(`/user/admin/update-user/${userId}`, data);
+  return response.data;
+};

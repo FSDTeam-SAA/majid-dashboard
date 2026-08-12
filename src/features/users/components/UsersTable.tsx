@@ -16,6 +16,8 @@ export interface User {
   date: string;
   contract: string;
   avatar: string;
+  email: string;
+  balance: number;
 }
 
 interface UserApiRecord {
@@ -27,7 +29,8 @@ interface UserApiRecord {
   createdAt?: string;
   phone?: string;
   email: string;
-  image?: { url: string };
+  balance?: number;
+  image?: { url: string } | string;
 }
 
 export function UsersTable() {
@@ -39,10 +42,14 @@ export function UsersTable() {
       id: u._id,
       name: `${u.firstName} ${u.lastName}`,
       deviceName: u.deviceName || "N/A",
-      price: u.price || "$0.00",
+      price: `$${u.balance || 0}`,
       date: u.createdAt ? new Date(u.createdAt).toLocaleDateString() : "N/A",
       contract: u.phone || u.email,
-      avatar: u.image?.url || `https://i.pravatar.cc/150?u=${u._id}`,
+      email: u.email,
+      balance: u.balance || 0,
+      avatar:
+        (typeof u.image === "string" ? u.image : u.image?.url) ||
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(u.firstName + " " + u.lastName)}&background=random`,
     })) || [];
 
   const columns: ColumnDef<User>[] = [

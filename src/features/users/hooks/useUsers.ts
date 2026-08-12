@@ -4,6 +4,7 @@ import {
   getMyProfile,
   updateProfile,
   changePassword,
+  updateUserAdmin,
 } from "../api/users.api";
 
 export function useChangePassword() {
@@ -32,6 +33,16 @@ export function useUpdateProfile() {
     mutationFn: updateProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["my-profile"] });
+    },
+  });
+}
+
+export function useUpdateUserAdmin() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateUserAdmin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
 }
