@@ -76,7 +76,7 @@ export function PaymentHistoryTable() {
           ? "FAILED"
           : "PENDING",
     rawStatus: p.paymentStatus || "pending",
-    method: p.paymentMethod || "Stripe",
+    method: p.paymentMethod || "RyftPay",
   }));
 
   const totalPages =
