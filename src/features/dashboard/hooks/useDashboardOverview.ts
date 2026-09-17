@@ -10,6 +10,7 @@ interface DashboardUserRecord {
   role?: string;
   deviceName?: string;
   price?: string | number;
+  balance?: number;
   createdAt?: string;
   phone?: string;
   email?: string;
@@ -29,6 +30,8 @@ export interface DashboardUserRow {
   name: string;
   deviceName: string;
   price: string;
+  balance: number;
+  email: string;
   date: string;
   contract: string;
   avatar: string;
@@ -87,7 +90,9 @@ function toRecentUser(user: DashboardUserRecord): DashboardUserRow {
     id: user._id,
     name: formatUserName(user),
     deviceName: user.deviceName || "N/A",
-    price: formatPrice(user.price),
+    price: formatPrice(user.price ?? user.balance),
+    balance: user.balance ?? 0,
+    email: user.email || "",
     date: user.createdAt
       ? new Date(user.createdAt).toLocaleDateString(undefined, {
           month: "short",

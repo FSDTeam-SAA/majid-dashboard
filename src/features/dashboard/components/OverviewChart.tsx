@@ -29,14 +29,23 @@ export function OverviewChart() {
   const { recentUsers, isLoading: isUsersLoading } = useDashboardOverview();
 
   const apiData =
-    chartData?.data?.map((d: ChartDataRecord) => ({
-      name: new Date(d.date).toLocaleDateString(undefined, {
-        month: "short",
-        day: "numeric",
-      }),
-      users: d.user,
-      shopkeepers: d.shopkeeper,
-    })) || [];
+    chartData?.data?.map((d: ChartDataRecord) => {
+      let label = d.date;
+      try {
+        const dateObj = new Date(d.date.length === 7 ? `${d.date}-01` : d.date);
+        label = dateObj.toLocaleDateString(undefined, {
+          month: "short",
+          ...(filter === "30days" ? { day: "numeric" } : { year: "2-digit" }),
+        });
+      } catch {
+        label = d.date;
+      }
+      return {
+        name: label,
+        users: d.user || 0,
+        shopkeepers: d.shopkeeper || 0,
+      };
+    }) || [];
 
   const fallbackData = recentUsers
     .slice()
@@ -77,8 +86,8 @@ export function OverviewChart() {
           ) : showEmpty ? (
             <div className="flex h-full items-center justify-center rounded-xl border border-dashed border-border text-sm text-muted-foreground">
               {isError
-                ? "Chart data load korte problem hocche. Backend response check koro."
-                : "Chart data available nai."}
+                ? "Unable to load chart data."
+                : "No member chart data available."}
             </div>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
