@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -34,19 +35,18 @@ export function Sidebar() {
   return (
     <aside className="w-64 h-screen bg-sidebar-background border-r border-sidebar-border flex flex-col fixed left-0 top-0">
       {/* Logo */}
-      <div className="p-6 flex items-center gap-2">
-        <span className="text-2xl font-bold text-primary">imoscan</span>
-        <div className="bg-blue-500 rounded-full p-0.5">
-          <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
-            <path
-              d="M6.5 11.2L9.5 14.2L15.5 8"
-              stroke="white"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+      <div className="p-6 flex items-center">
+        <Link href="/dashboard" className="flex items-center">
+          <div className="relative h-10 w-44">
+            <Image
+              src="/images/logo.png"
+              alt="IMOSCAN"
+              fill
+              priority
+              className="object-contain object-left"
             />
-          </svg>
-        </div>
+          </div>
+        </Link>
       </div>
 
       {/* Navigation */}

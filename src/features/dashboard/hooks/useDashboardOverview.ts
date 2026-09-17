@@ -80,6 +80,20 @@ function formatPrice(value?: string | number) {
   return "N/A";
 }
 
+function extractAvatarUrl(image: unknown): string {
+  if (!image) return "";
+  if (typeof image === "string" && image.trim().startsWith("http")) {
+    return image.trim();
+  }
+  if (typeof image === "object" && image !== null && "url" in image) {
+    const url = (image as { url?: unknown }).url;
+    if (typeof url === "string" && url.trim().startsWith("http")) {
+      return url.trim();
+    }
+  }
+  return "";
+}
+
 function formatUserName(user: DashboardUserRecord) {
   const fullName = `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim();
   return fullName || "Unknown User";
@@ -101,7 +115,7 @@ function toRecentUser(user: DashboardUserRecord): DashboardUserRow {
         })
       : "N/A",
     contract: user.phone || user.email || "N/A",
-    avatar: user.image?.url || `https://i.pravatar.cc/150?u=${user._id}`,
+    avatar: extractAvatarUrl(user.image),
   };
 }
 
