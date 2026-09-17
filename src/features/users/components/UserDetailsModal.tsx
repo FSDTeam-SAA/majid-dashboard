@@ -17,6 +17,15 @@ interface UserDetailsModalProps {
   userData: Partial<User> | null;
 }
 
+function getInitials(name?: string) {
+  if (!name || !name.trim()) return "U";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return parts[0].substring(0, 2).toUpperCase();
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
 export function UserDetailsModal({
   isOpen,
   onClose,
@@ -61,9 +70,17 @@ export function UserDetailsModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md p-8 border-none shadow-lg rounded-2xl">
         <div className="flex flex-col items-center justify-center pb-6">
-          <Avatar className="w-16 h-16 mb-4">
-            <AvatarImage src={userData.avatar} />
-            <AvatarFallback>{userData.name?.[0]}</AvatarFallback>
+          <Avatar className="w-16 h-16 mb-4 border border-border/50 shadow-xs">
+            {userData.avatar ? (
+              <AvatarImage
+                src={userData.avatar}
+                alt={userData.name}
+                className="object-cover"
+              />
+            ) : null}
+            <AvatarFallback className="bg-primary/10 text-primary font-bold text-lg">
+              {getInitials(userData.name)}
+            </AvatarFallback>
           </Avatar>
           <h2 className="text-xl font-bold text-foreground">{userData.name}</h2>
           <p className="text-xs text-muted-foreground mt-1">

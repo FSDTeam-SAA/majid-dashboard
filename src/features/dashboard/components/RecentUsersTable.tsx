@@ -12,6 +12,15 @@ import {
   useDashboardOverview,
 } from "../hooks/useDashboardOverview";
 
+function getInitials(name?: string) {
+  if (!name || !name.trim()) return "U";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return parts[0].substring(0, 2).toUpperCase();
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
 export function RecentUsersTable() {
   const [selectedUser, setSelectedUser] = useState<DashboardUserRow | null>(
     null,
@@ -24,11 +33,21 @@ export function RecentUsersTable() {
       header: "USER NAME",
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
-          <Avatar className="w-8 h-8">
-            <AvatarImage src={row.original.avatar} />
-            <AvatarFallback>{row.original.name[0]}</AvatarFallback>
+          <Avatar className="w-9 h-9 border border-border/40 shrink-0">
+            {row.original.avatar ? (
+              <AvatarImage
+                src={row.original.avatar}
+                alt={row.original.name}
+                className="object-cover"
+              />
+            ) : null}
+            <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">
+              {getInitials(row.original.name)}
+            </AvatarFallback>
           </Avatar>
-          <span className="font-medium">{row.original.name}</span>
+          <span className="font-medium text-foreground">
+            {row.original.name}
+          </span>
         </div>
       ),
     },
