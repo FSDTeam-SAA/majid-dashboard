@@ -33,6 +33,29 @@ interface UserApiRecord {
   image?: { url: string } | string;
 }
 
+function getInitials(name?: string) {
+  if (!name || !name.trim()) return "U";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return parts[0].substring(0, 2).toUpperCase();
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function extractAvatarUrl(image: unknown): string {
+  if (!image) return "";
+  if (typeof image === "string" && image.trim().startsWith("http")) {
+    return image.trim();
+  }
+  if (typeof image === "object" && image !== null && "url" in image) {
+    const url = (image as { url?: unknown }).url;
+    if (typeof url === "string" && url.trim().startsWith("http")) {
+      return url.trim();
+    }
+  }
+  return "";
+}
+
 export function UsersTable() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const { data: usersData, isLoading } = useUsers();
@@ -40,16 +63,20 @@ export function UsersTable() {
   const users: User[] =
     usersData?.data?.map((u: UserApiRecord) => ({
       id: u._id,
-      name: `${u.firstName} ${u.lastName}`,
+      name: `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
       deviceName: u.deviceName || "N/A",
       price: `$${u.balance || 0}`,
-      date: u.createdAt ? new Date(u.createdAt).toLocaleDateString() : "N/A",
-      contract: u.phone || u.email,
-      email: u.email,
+      date: u.createdAt
+        ? new Date(u.createdAt).toLocaleDateString(undefined, {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })
+        : "N/A",
+      contract: u.phone || u.email || "N/A",
+      email: u.email || "",
       balance: u.balance || 0,
-      avatar:
-        (typeof u.image === "string" ? u.image : u.image?.url) ||
-        `https://ui-avatars.com/api/?name=${encodeURIComponent(u.firstName + " " + u.lastName)}&background=random`,
+      avatar: extractAvatarUrl(u.image),
     })) || [];
 
   const columns: ColumnDef<User>[] = [
@@ -58,11 +85,21 @@ export function UsersTable() {
       header: "USER NAME",
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
-          <Avatar className="w-8 h-8">
-            <AvatarImage src={row.original.avatar} />
-            <AvatarFallback>{row.original.name[0]}</AvatarFallback>
+          <Avatar className="w-9 h-9 border border-border/40 shrink-0">
+            {row.original.avatar ? (
+              <AvatarImage
+                src={row.original.avatar}
+                alt={row.original.name}
+                className="object-cover"
+              />
+            ) : null}
+            <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">
+              {getInitials(row.original.name)}
+            </AvatarFallback>
           </Avatar>
-          <span className="font-medium">{row.original.name}</span>
+          <span className="font-medium text-foreground">
+            {row.original.name}
+          </span>
         </div>
       ),
     },
