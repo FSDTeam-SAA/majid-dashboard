@@ -87,8 +87,12 @@ export function Sidebar() {
                 ? `${user.firstName} ${user.lastName}`
                 : "Loading..."}
             </span>
-            <span className="text-xs text-muted-foreground">
-              {user?.role === "super_admin" ? "Super Admin" : "User"}
+            <span className="text-xs text-muted-foreground capitalize">
+              {user?.role === "super_admin"
+                ? "Super Admin"
+                : user?.role === "admin"
+                  ? "Admin"
+                  : user?.role || "Admin"}
             </span>
           </div>
         </div>

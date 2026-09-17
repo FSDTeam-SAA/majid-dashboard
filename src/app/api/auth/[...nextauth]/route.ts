@@ -83,6 +83,13 @@ const handler = NextAuth({
             throw new Error("Invalid response from server");
           }
 
+          const allowedRoles = ["admin", "super_admin"];
+          if (!user.role || !allowedRoles.includes(user.role.toLowerCase())) {
+            throw new Error(
+              "Access denied. Only admin accounts can access this dashboard.",
+            );
+          }
+
           // Return the object that NextAuth will use as 'user' in the jwt callback
           return {
             id: user._id || user.id, // Ensure we get the ID
@@ -95,9 +102,13 @@ const handler = NextAuth({
             token: accessToken, // We attach the token here as a property of the user
             refreshToken: refreshToken,
           };
-        } catch (error) {
+        } catch (error: unknown) {
           console.error("Authorize error:", error);
-          throw new Error("Invalid email or password");
+          const message =
+            error instanceof Error
+              ? error.message
+              : "Invalid email or password";
+          throw new Error(message);
         }
       },
     }),

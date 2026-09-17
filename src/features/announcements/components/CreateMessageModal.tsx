@@ -54,8 +54,15 @@ export function CreateMessageModal({
       await sendAnnouncement(values);
       toast.success("Announcement sent successfully");
       onClose();
-    } catch {
-      toast.error("Failed to send announcement");
+    } catch (error: unknown) {
+      const message =
+        typeof error === "object" && error !== null && "response" in error
+          ? (error as { response?: { data?: { message?: string } } }).response
+              ?.data?.message || "Failed to send announcement"
+          : error instanceof Error
+            ? error.message
+            : "Failed to send announcement";
+      toast.error(message);
     }
   };
 
