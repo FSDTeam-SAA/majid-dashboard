@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useForgotPassword } from "../hooks/useAuthMutations";
 
+import Image from "next/image";
+
 export default function ForgotPasswordForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -45,20 +47,14 @@ export default function ForgotPasswordForm() {
   return (
     <div className="auth-card">
       {/* Logo */}
-      <div className="auth-logo">
-        <span className="auth-logo-text">imoscan</span>
-        <span className="auth-logo-badge">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#3B9EE8" />
-            <path
-              d="M6.5 11.2L9.5 14.2L15.5 8"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </span>
+      <div className="relative h-12 w-48 mb-3">
+        <Image
+          src="/images/logo.png"
+          alt="IMOSCAN"
+          fill
+          priority
+          className="object-contain"
+        />
       </div>
 
       <h1 className="auth-title">Forgot Password</h1>

@@ -13,8 +13,13 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "imoscan | Admin Dashboard",
-  description: "imoscan Admin Dashboard",
+  title: "IMOSCAN | Admin Dashboard",
+  description: "Verify Global IMEI/EAN Intelligence in Real-Time",
+  icons: {
+    icon: "/images/logo.svg",
+    shortcut: "/images/logo.svg",
+    apple: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({
